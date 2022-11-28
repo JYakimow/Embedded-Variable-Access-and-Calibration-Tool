@@ -14,10 +14,10 @@
 """
 
 #library imports
+from pickle import TRUE
 
 #file imports
-from pickle import TRUE
-import uart
+#import uart
 
 """
  ******************************************************************************
@@ -34,7 +34,10 @@ import uart
 def main():
     print("Application Launched\n")
 
-    uart.uartInit()
+
+
+
+    ###uart.uartInit()###
 
     #print(uart.receiveByte())
 
@@ -42,13 +45,22 @@ def main():
 
     #print(uart.ser.read())
     #uart.ser.open()
-    dat = uart.receiveBytes(12)
-    print(dat)
+    #dat = uart.receiveBytes(2)
+    ###dat = uart.ser.read(11)###
+
+    #datLen = uart.ser.inWaiting()
+
+    #if datLen:
+        #dat = dat + uart.ser.read(datLen)
+        #print(dat)
+
+    ###print(dat, ":end:") #.decode('ascii')###
     """msg = input("Enter something to send to microcontroller: ")
     uart.ser.write(input(msg.encode()))
     newdat = uart.ser.read(50);
     print(newdat)"""
     
+    """
     x = True
     while (x == True):
         msg = input("Enter something to send to microcontroller: ")
@@ -56,10 +68,10 @@ def main():
         #print("length of message: ", msgLength, "\n")
         uart.ser.write(b'test')
         print("1")
-        newdat = uart.ser.read(4) #.decode('ascii')
+        newdat = uart.ser.read(msgLength) #.decode('ascii')
         print("2")
         print(newdat)
-        print("end")
+        print("end")"""
 
 if __name__ == "__main__":
     main()
