@@ -1,7 +1,7 @@
 """
 *******************************************************************************
       File Name  : gui.py
-      Author     : J. Yakimow
+      Author     : jdyakimow
       Date       : 11/28/2022
       Description: gui for usdi fmstr
  ******************************************************************************
@@ -33,8 +33,8 @@ import tkinter as tk
 """
  * Function: 		example()
  * Description: 	example function
- * Parameters:		None
- * Return Value:	None
+ * Parameters:		none
+ * Return Value:	none
 """
 def example():
   print("example function")
