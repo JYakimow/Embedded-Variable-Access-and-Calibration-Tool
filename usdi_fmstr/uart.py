@@ -18,7 +18,9 @@
 
 #library imports
 #from ast import Constant
+from lib2to3.pytree import convert
 import serial
+import string
 
 #file imports
 
@@ -33,6 +35,7 @@ COMMUNICATION_CHECK = 0x55
 COMMUNICATION_ACK = 0x56
 CHANGE_VARIABLE = 0x51
 READ_VARIABLE = 0x52
+
 
 
 #variable type commands
@@ -74,15 +77,30 @@ def uartInit():
  * Parameters:		None
  * Return Value:	None
 """
-def sendBytes(length):
-    print("not working yet")
+def sendBytes(data):
+    ser.write(data)
 
 """
- * Function: 		receiveByte()
- * Description: 	send byte of data
+ * Function: 		receiveBytes()
+ * Description: 	receive bytes of data
  * Parameters:		None
  * Return Value:	None
 """
 def receiveBytes(length):
     data = ser.read(length).decode('ascii')
     return data
+
+def changeVariable(value, numOfBytes):
+    #send change variable command (always 4 bytes)
+    sendBytes(CHANGE_VARIABLE.encode())
+
+    #send length of new value (single char, single byte)
+    sendBytes(convertLength(numOfBytes).encode())
+
+    #send data
+    sendBytes(value.encode())
+    
+def convertLength(length):
+    d = dict(enumerate(string.ascii_lowercase, 1))
+    print(d[length])
+    return d[length]

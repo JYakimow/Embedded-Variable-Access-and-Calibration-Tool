@@ -17,7 +17,7 @@
 from pickle import TRUE
 
 #file imports
-#import uart
+import uart
 
 """
  ******************************************************************************
@@ -34,7 +34,7 @@ from pickle import TRUE
 def main():
     print("Application Launched\n")
 
-
+    uart.convertLength(1)
 
 
     ###uart.uartInit()###
