@@ -15,9 +15,13 @@
 
 #library imports
 from pickle import TRUE
+from time import sleep
+from tkinter.tix import Tree
+from cmd import convertLength
 
 #file imports
 import uart
+import cmd
 
 """
  ******************************************************************************
@@ -34,44 +38,39 @@ import uart
 def main():
     print("Application Launched\n")
 
-    uart.convertLength(1)
+    #init uart communication
+    uart.uartInit()
+    count = 0
 
+    #print(uart.receiveBytes(1))
+    #print(convertLength(5))
 
-    ###uart.uartInit()###
+    #cmd.changeVariable(154, "2")
 
-    #print(uart.receiveByte())
+    #send change variable command
+    def sendCommandTest():
+        val = input("Enter 'y' \n")
+        if(val == 'y'):
+            cmd.changeVariable(154, "56")
+            """
+            uart.sendBytes(b'0x51') #0x51
+            print(cmd.CHANGE_VARIABLE.encode(), "was sent")
+            #print("'page' was sent")
+            rec = uart.ser.read(4)
+            print(rec) #.decode("ascii"))"""
+        """
+        val2 = input("Enter 'a' \n")
+        if(val2 == 'a'):
+            print("Received Value: ", uart.receiveBytes(1))"""
 
-    #print(uart.receiveByte())
-
-    #print(uart.ser.read())
-    #uart.ser.open()
-    #dat = uart.receiveBytes(2)
-    ###dat = uart.ser.read(11)###
-
-    #datLen = uart.ser.inWaiting()
-
-    #if datLen:
-        #dat = dat + uart.ser.read(datLen)
-        #print(dat)
-
-    ###print(dat, ":end:") #.decode('ascii')###
-    """msg = input("Enter something to send to microcontroller: ")
-    uart.ser.write(input(msg.encode()))
-    newdat = uart.ser.read(50);
-    print(newdat)"""
-    
-    """
-    x = True
-    while (x == True):
-        msg = input("Enter something to send to microcontroller: ")
-        msgLength = len(msg)
-        #print("length of message: ", msgLength, "\n")
-        uart.ser.write(b'test')
-        print("1")
-        newdat = uart.ser.read(msgLength) #.decode('ascii')
-        print("2")
-        print(newdat)
-        print("end")"""
+    #enter main loop
+    while(True):
+        #print("loop restarted", count)
+        #count = count + 1
+        sendCommandTest()
+        #cmd.changeVariable(154, "12")
+        #cmd.changeVariable(154, "56")
+        #sleep(.1)
 
 if __name__ == "__main__":
     main()
