@@ -51,7 +51,7 @@ VAR_BOOL = "0x14"
 """
  * Function: 		changeVariable(value, numOfBytes, varNumber)
  * Description: 	change variable on embedded side
- * Parameters:		int value = the value to change
+ * Parameters:		int value = the new value to send to microcontroller
  *                  int varNumber = which var to change in ptr array in embedded side
  * Return Value:	None
 """
@@ -71,20 +71,29 @@ def changeVariable(value, varNumber):
     #send which variable (numeric value for pointer array in embedded system)
     uart.sendBytes(varNumberStr.encode())
 
+    #check to make sure right varid was sent
+    varcheck = uart.receiveBytes(varIdLen)
+    print("var ID check: ", varcheck)
+    varcheck = varcheck.decode("ascii")
+    if(varcheck != varNumberStr):
+        #recurive till correct
+        changeVariable(value, varNumber)
+        return
 
-    """
     #send length of new value (single char, single byte)
-    uart.sendBytes(convertLength(numOfBytes).encode())
+    valueStr = str(value) #convert to string
+    valueLen = len(valueStr) #get length of value string to transmit
+    valueLenChar = convertLength(valueLen)
+    uart.sendBytes(valueLenChar.encode()) #send length in char form up to 26 bytes length
 
-    #send data
-    uart.sendBytes(value.encode())"""
+    #send data to variable
+    uart.sendBytes(valueStr.encode())
 
-
-    #check to make sure communication happend and call again if didn't (should be at end basically read)
-    check = uart.receiveBytes(varIdLen)
-    print(check)
+    #check to make sure communication happend and call again if didn't
+    check = uart.receiveBytes(valueLen)
+    print("value check: ", check)
     check = check.decode("ascii")
-    if(check == varNumberStr):
+    if(check == valueStr):
         return
         #print("true")
     else:

@@ -65,12 +65,12 @@ def main():
 
     #enter main loop
     while(True):
-        #print("loop restarted", count)
-        #count = count + 1
-        sendCommandTest()
-        #cmd.changeVariable(154, "12")
+        print("****** loop restarted", count, "******")
+        count = count + 1
+        #sendCommandTest()
+        cmd.changeVariable(154, 12)
         #cmd.changeVariable(154, "56")
-        #sleep(.1)
+        sleep(.5)
 
 if __name__ == "__main__":
     main()
