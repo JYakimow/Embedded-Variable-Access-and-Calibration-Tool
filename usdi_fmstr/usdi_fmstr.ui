@@ -1,28 +1,114 @@
 <?xml version='1.0' encoding='utf-8'?>
 <interface version="1.3">
   <object class="tk.Toplevel" id="toplevel_main" named="True">
+    <property name="cursor">boat</property>
     <property name="height">200</property>
+    <property name="resizable">none</property>
+    <property name="title" translatable="yes">USDI FreeMASTER</property>
     <property name="width">200</property>
     <child>
       <object class="tk.Frame" id="frame_main" named="True">
         <property name="height">200</property>
         <property name="width">200</property>
         <layout manager="pack">
+          <property name="padx">5</property>
+          <property name="pady">5</property>
           <property name="side">top</property>
         </layout>
         <child>
-          <object class="tk.LabelFrame" id="labelframe2">
+          <object class="tk.LabelFrame" id="labelframe_configureUart" named="True">
             <property name="height">200</property>
-            <property name="text" translatable="yes">labelframe2</property>
+            <property name="text" translatable="yes">Configure UART</property>
             <property name="width">200</property>
             <layout manager="pack">
+              <property name="padx">5</property>
+              <property name="pady">3</property>
               <property name="side">top</property>
             </layout>
             <child>
-              <object class="tk.Button" id="button1">
-                <property name="text" translatable="yes">button1</property>
-                <layout manager="pack">
-                  <property name="side">top</property>
+              <object class="ttk.Label" id="label_comPort" named="True">
+                <property name="text" translatable="yes">COM PORT</property>
+                <property name="textvariable">string:label_comPort_value</property>
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">0</property>
+                  <property name="sticky">w</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Combobox" id="comboBox_comPort" named="True">
+                <layout manager="grid">
+                  <property name="column">1</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Label" id="label_baudRate" named="True">
+                <property name="text" translatable="yes">BAUD RATE</property>
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Combobox" id="comboBox_baudRate" named="True">
+                <layout manager="grid">
+                  <property name="column">1</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Label" id="label_dataBits" named="True">
+                <property name="text" translatable="yes">DATA BITS</property>
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Combobox" id="comboBox_dataBits" named="True">
+                <layout manager="grid">
+                  <property name="column">1</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Label" id="label_stopBits" named="True">
+                <property name="takefocus">false</property>
+                <property name="text" translatable="yes">STOP BITS</property>
+                <layout manager="grid">
+                  <property name="column">0</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">3</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Combobox" id="comboBox_stopBits" named="True">
+                <layout manager="grid">
+                  <property name="column">1</property>
+                  <property name="padx">5</property>
+                  <property name="pady">3</property>
+                  <property name="row">3</property>
                 </layout>
               </object>
             </child>

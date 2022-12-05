@@ -51,7 +51,8 @@ def main():
     def sendCommandTest():
         val = input("Enter 'y' \n")
         if(val == 'y'):
-            cmd.changeVariable(154, "56")
+            #cmd.changeVariable(154, 12)
+            valueStr = cmd.getVariable(3)
             """
             uart.sendBytes(b'0x51') #0x51
             print(cmd.CHANGE_VARIABLE.encode(), "was sent")
@@ -67,9 +68,14 @@ def main():
     while(True):
         print("****** loop restarted", count, "******")
         count = count + 1
+        valueStr = cmd.getVariable(3)
         #sendCommandTest()
-        cmd.changeVariable(154, 12)
-        #cmd.changeVariable(154, "56")
+        #cmd.changeVariable(34, 4)
+        """
+        if(valueStr == None):
+            valueStr = cmd.getVariable(3)
+        """
+        print("The value is:", valueStr)
         sleep(.5)
 
 if __name__ == "__main__":
