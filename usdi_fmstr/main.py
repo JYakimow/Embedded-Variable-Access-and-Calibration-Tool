@@ -22,6 +22,7 @@ from cmd import convertLength
 #file imports
 import uart
 import cmd
+import gui
 
 """
  ******************************************************************************
@@ -79,4 +80,6 @@ def main():
         sleep(.5)
 
 if __name__ == "__main__":
-    main()
+    #main()
+    app = gui.UsdiFmstrApp()
+    app.run()

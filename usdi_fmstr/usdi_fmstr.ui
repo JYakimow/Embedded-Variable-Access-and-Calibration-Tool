@@ -216,6 +216,73 @@
               <property name="pady">3</property>
               <property name="side">top</property>
             </layout>
+            <child>
+              <object class="ttk.Label" id="label_variableID" named="True">
+                <property name="text" translatable="yes">Variable ID</property>
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="x">15</property>
+                  <property name="y">10</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Combobox" id="comboBox_variableID" named="True">
+                <property name="state">readonly</property>
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="width">140</property>
+                  <property name="x">90</property>
+                  <property name="y">8</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Label" id="label_newValue" named="True">
+                <property name="text" translatable="yes">New Value</property>
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="x">15</property>
+                  <property name="y">60</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Entry" id="entry1">
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="width">140</property>
+                  <property name="x">90</property>
+                  <property name="y">60</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Button" id="button_sendNewValue" named="True">
+                <property name="command" type="command" cbtype="simple">on_send_btn_pressed</property>
+                <property name="text" translatable="yes">Send</property>
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="height">40</property>
+                  <property name="width">100</property>
+                  <property name="x">130</property>
+                  <property name="y">105</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Button" id="button_refreshAll" named="True">
+                <property name="command" type="command" cbtype="simple">on_refresh_btn_pressed</property>
+                <property name="text" translatable="yes">Refresh All</property>
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="height">40</property>
+                  <property name="width">100</property>
+                  <property name="x">15</property>
+                  <property name="y">105</property>
+                </layout>
+              </object>
+            </child>
           </object>
         </child>
       </object>
