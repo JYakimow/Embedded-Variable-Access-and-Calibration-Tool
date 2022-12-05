@@ -29,7 +29,7 @@ import serial
 
 #define serial port
 ser = serial.Serial() #this must set to com port being used
-#ser.close()
+ser.close()
 #uart.ser.inWaiting()
 
 """
@@ -47,9 +47,9 @@ ser = serial.Serial() #this must set to com port being used
 def uartInit():
     ser.baudrate = 115200   #set baudrate
     ser.port = 'COM3'       #set com port
-    #ser.timeout = 1        #timeout after one read
+    ser.timeout = 1        #timeout after one read
     ser.open()              #open connection
-    ser.timeout = 1
+
 
     #see port info
     print("COM port opened with following settings: ")
