@@ -40,7 +40,7 @@ def main():
     print("Application Launched\n")
 
     #init uart communication
-    uart.uartInit()
+    uart.init()
     count = 0
 
     #print(uart.receiveBytes(1))

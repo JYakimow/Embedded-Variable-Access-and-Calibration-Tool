@@ -19,6 +19,7 @@
         <child>
           <object class="tk.LabelFrame" id="labelframe_configureUart" named="True">
             <property name="height">200</property>
+            <property name="relief">groove</property>
             <property name="text" translatable="yes">Configure UART</property>
             <property name="width">200</property>
             <layout manager="pack">
@@ -30,7 +31,6 @@
             <child>
               <object class="ttk.Label" id="label_comPort" named="True">
                 <property name="text" translatable="yes">COM PORT</property>
-                <property name="textvariable">string:label_comPort_value</property>
                 <layout manager="grid">
                   <property name="column">0</property>
                   <property name="padx">5</property>
@@ -41,6 +41,8 @@
             </child>
             <child>
               <object class="ttk.Combobox" id="comboBox_comPort" named="True">
+                <property name="state">readonly</property>
+                <property name="textvariable">string:comboBox_comPortValue</property>
                 <property name="width">16</property>
                 <layout manager="grid">
                   <property name="column">1</property>
@@ -63,6 +65,10 @@
             </child>
             <child>
               <object class="ttk.Combobox" id="comboBox_baudRate" named="True">
+                <property name="state">readonly</property>
+                <property name="textvariable">string:comboBox_baudRateValue</property>
+                <property name="validate">none</property>
+                <property name="values">110 300 600 1200 2400 4800 9600 14400 19200 38400 57600 115200 128000 256000</property>
                 <property name="width">16</property>
                 <layout manager="grid">
                   <property name="column">1</property>
@@ -86,6 +92,7 @@
             <child>
               <object class="ttk.Combobox" id="comboBox_dataBits" named="True">
                 <property name="state">readonly</property>
+                <property name="textvariable">string:comboBox_dataBitsValue</property>
                 <property name="values">5bits 6bits 7bits 8bits</property>
                 <property name="width">16</property>
                 <layout manager="grid">
@@ -98,7 +105,6 @@
             </child>
             <child>
               <object class="ttk.Label" id="label_stopBits" named="True">
-                <property name="takefocus">false</property>
                 <property name="text" translatable="yes">STOP BITS</property>
                 <layout manager="grid">
                   <property name="column">0</property>
@@ -111,7 +117,7 @@
             <child>
               <object class="ttk.Combobox" id="comboBox_stopBits" named="True">
                 <property name="state">readonly</property>
-                <property name="values">One Two</property>
+                <property name="values">one two</property>
                 <property name="width">16</property>
                 <layout manager="grid">
                   <property name="column">1</property>
@@ -135,7 +141,7 @@
             <child>
               <object class="ttk.Combobox" id="comboBox_parityBit" named="True">
                 <property name="state">readonly</property>
-                <property name="values">None Even Odd</property>
+                <property name="values">none even odd</property>
                 <property name="width">16</property>
                 <layout manager="grid">
                   <property name="column">1</property>
@@ -179,6 +185,7 @@
         <child>
           <object class="ttk.Labelframe" id="labelFrame_connectionStatus" named="True">
             <property name="height">100</property>
+            <property name="relief">groove</property>
             <property name="text" translatable="yes">Connection Status</property>
             <property name="width">200</property>
             <layout manager="pack">
@@ -194,7 +201,9 @@
                 <property name="compound">right</property>
                 <property name="font">{Arial} 20 {}</property>
                 <property name="relief">flat</property>
-                <property name="text" translatable="yes">&lt;status&gt;</property>
+                <property name="state">disabled</property>
+                <property name="takefocus">true</property>
+                <property name="text" translatable="yes">Disconnected</property>
                 <property name="textvariable">string:labelValue_connectionStatus</property>
                 <layout manager="pack">
                   <property name="ipadx">5</property>
@@ -208,6 +217,7 @@
         <child>
           <object class="ttk.Labelframe" id="labelFrame_changeVariable" named="True">
             <property name="height">180</property>
+            <property name="relief">groove</property>
             <property name="text" translatable="yes">Change Variable</property>
             <property name="width">200</property>
             <layout manager="pack">
@@ -222,7 +232,7 @@
                 <layout manager="place">
                   <property name="anchor">nw</property>
                   <property name="x">15</property>
-                  <property name="y">10</property>
+                  <property name="y">15</property>
                 </layout>
               </object>
             </child>
@@ -233,7 +243,7 @@
                   <property name="anchor">nw</property>
                   <property name="width">140</property>
                   <property name="x">90</property>
-                  <property name="y">8</property>
+                  <property name="y">13</property>
                 </layout>
               </object>
             </child>
@@ -248,7 +258,8 @@
               </object>
             </child>
             <child>
-              <object class="ttk.Entry" id="entry1">
+              <object class="ttk.Entry" id="entry_newValue" named="True">
+                <property name="textvariable">string:entry_newValue_var</property>
                 <layout manager="place">
                   <property name="anchor">nw</property>
                   <property name="width">140</property>
@@ -290,6 +301,7 @@
     <child>
       <object class="ttk.Labelframe" id="labelFrame_displayData" named="True">
         <property name="height">473</property>
+        <property name="relief">groove</property>
         <property name="text" translatable="yes">Variable Data</property>
         <property name="width">526</property>
         <layout manager="place">

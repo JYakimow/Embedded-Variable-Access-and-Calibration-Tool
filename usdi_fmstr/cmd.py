@@ -14,9 +14,11 @@
 """
 
 #library imports
+from ast import Constant
 from reprlib import recursive_repr
 import string
 import time
+#from datetime import datetime
 
 #file imports
 import uart
@@ -34,13 +36,14 @@ CHANGE_VARIABLE = "0x51"
 READ_VARIABLE = "0x52"
 DATA_ACK = "0x53"
 
-
-
 #variable type commands
 VAR_INT = "0x11"
 VAR_CHAR = "0x12"
 VAR_STRING = "0x13"
 VAR_BOOL = "0x14"
+
+#temporary hardcoded value:
+CAL_ARRAY_LENGTH = int(34)
 
 """
  ******************************************************************************
@@ -182,3 +185,6 @@ def convertLengthBack(aChar): #parameter is char
         count = count + 1
         if alphabet[count] == aChar:
             return count
+
+def getTimeStamp():
+    pass

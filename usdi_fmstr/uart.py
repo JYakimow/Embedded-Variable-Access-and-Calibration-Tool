@@ -18,6 +18,8 @@
 #library imports
 from lib2to3.pytree import convert
 import serial
+import serial.tools.list_ports
+import datetime
 
 #file imports
 
@@ -39,21 +41,36 @@ ser.close()
 """
 
 """
- * Function: 		uartInit()
+ * Function: 		init()
  * Description: 	initialize uart serial port settings
  * Parameters:		None
  * Return Value:	None
 """
-def uartInit():
-    ser.baudrate = 115200   #set baudrate
-    ser.port = 'COM3'       #set com port
-    ser.timeout = 1        #timeout after one read
-    ser.open()              #open connection
-
+def init(port, baud, dataBits): #, baud, dataBits, stopBits, parity) 
+    ser.port = port 
+    ser.baudrate = baud   
+    ser.bytesize = handleUartByteSize(dataBits)
+    ser.timeout = 1 #1 second to read before timeout
+    ser.open()
 
     #see port info
-    print("COM port opened with following settings: ")
+    print(datetime.datetime.now(), "LOG: COM port opened with following settings: ")
     print(ser, '\n')
+
+"""
+ * Function: 		getPorts()
+ * Description: 	send byte of data
+ * Parameters:		None
+ * Return Value:	portList (python list)
+"""
+def getPorts():
+    ports = serial.tools.list_ports.comports()
+    portList = []
+    for port, desc, hwid in sorted(ports):
+        thePort = "{}".format(port)
+        portList.append(thePort)
+        #ports1 = "{}: {} [{}]".format(port, desc, hwid)
+    return portList
 
 """
  * Function: 		sendByte(data)
@@ -73,3 +90,15 @@ def sendBytes(data):
 def receiveBytes(length):
     data = ser.read(length) #.decode('ascii')
     return data
+
+def handleUartByteSize(dataByte):
+    dataByte = str(dataByte)
+
+    if(dataByte == "5bits"):
+        return serial.FIVEBITS
+    elif(dataByte == "6bits"):
+        return serial.SIXBITS
+    elif(dataByte == "7bits"):
+        return serial.SEVENBITS
+    elif(dataByte == "8bits"):
+        return serial.EIGHTBITS
