@@ -17,6 +17,7 @@
 
 #library imports
 from lib2to3.pytree import convert
+from wsgiref.validate import PartialIteratorWrapper
 import serial
 import serial.tools.list_ports
 import datetime
@@ -46,10 +47,12 @@ ser.close()
  * Parameters:		None
  * Return Value:	None
 """
-def init(port, baud, dataBits): #, baud, dataBits, stopBits, parity) 
+def init(port, baud, dataBits, stopBits, parityChecking): #, baud, dataBits, stopBits, parity) 
     ser.port = port 
     ser.baudrate = baud   
     ser.bytesize = handleUartByteSize(dataBits)
+    ser.stopbits = convertStopBits(stopBits)
+    ser.parity = convertParity(parityChecking)
     ser.timeout = 1 #1 second to read before timeout
     ser.open()
 
@@ -102,3 +105,21 @@ def handleUartByteSize(dataByte):
         return serial.SEVENBITS
     elif(dataByte == "8bits"):
         return serial.EIGHTBITS
+
+def convertStopBits(stopbit):
+    stopbit = str(stopbit)
+
+    if(stopbit == "one"):
+        return serial.STOPBITS_ONE
+    elif(stopbit == "two"):
+        return serial.STOPBITS_TWO
+
+def convertParity(parity):
+    parity = str(parity)
+
+    if(parity == "none"):
+        return serial.PARITY_NONE
+    elif(parity == "even"):
+        return serial.PARITY_EVEN
+    elif(parity == "odd"):
+        return serial.PARITY_ODD

@@ -18,10 +18,11 @@ from ast import Constant
 from reprlib import recursive_repr
 import string
 import time
-#from datetime import datetime
+import datetime
 
 #file imports
 import uart
+import gui
 
 """
  ******************************************************************************
@@ -104,62 +105,68 @@ def changeVariable(value, varNumber):
         changeVariable(value, varNumber)
 
 def getVariable(varNumber):
-    varNumberStr = ""
+    try:
+        varNumberStr = ""
 
-    #send get variable command (always 4 bytes)
-    uart.sendBytes(READ_VARIABLE.encode())
+        #send get variable command (always 4 bytes)
+        uart.sendBytes(READ_VARIABLE.encode())
 
-    #send length of variable id int (single char, single byte)
-    varNumberStr = str(varNumber)
-    varIdLen = len(varNumberStr)
-    varIdLength = convertLength(varIdLen)
-    uart.sendBytes(varIdLength.encode())
+        #send length of variable id int (single char, single byte)
+        varNumberStr = str(varNumber)
+        varIdLen = len(varNumberStr)
+        varIdLength = convertLength(varIdLen)
+        uart.sendBytes(varIdLength.encode())
 
-    #send which variable (numeric value for pointer array in embedded system)
-    uart.sendBytes(varNumberStr.encode())
+        #send which variable (numeric value for pointer array in embedded system)
+        uart.sendBytes(varNumberStr.encode())
 
-    #check to make sure right varid was sent
-    varcheck = uart.receiveBytes(varIdLen)
-    print("var ID check: ", varcheck)
-    varcheck = varcheck.decode("ascii")
-    if(varcheck != varNumberStr):
-        #recurive till correct
-        getVariable(varNumber)
-        return
+        #check to make sure right varid was sent
+        varcheck = uart.receiveBytes(varIdLen)
+        print("var ID check: ", varcheck)
+        varcheck = varcheck.decode("ascii")
+        if(varcheck != varNumberStr):
+            #recurive till correct
+            getVariable(varNumber)
+            return
 
-    #get length of new value
-    valueLengthString = uart.receiveBytes(1).decode("ascii"); #char right now
-    valueLengthInteger = convertLengthBack(valueLengthString) #now an int
-    #print("length of value int:", valueLengthInteger)
+        #get length of new value
+        valueLengthString = uart.receiveBytes(1).decode("ascii"); #char right now
+        valueLengthInteger = convertLengthBack(valueLengthString) #now an int
+        #print("length of value int:", valueLengthInteger)
 
-    #receive value
-    valueByteObject = uart.receiveBytes(valueLengthInteger)
-    valueString = valueByteObject.decode("ascii")
+        #receive value
+        valueByteObject = uart.receiveBytes(valueLengthInteger)
+        valueString = valueByteObject.decode("ascii")
 
-    #accuracy check
-    check1 = valueByteObject
-    print("value check1: ", check1)
-    check2 = uart.receiveBytes(valueLengthInteger)
-    print("value check2: ", check2)
+        #accuracy check
+        check1 = valueByteObject
+        print("value check1: ", check1)
+        check2 = uart.receiveBytes(valueLengthInteger)
+        print("value check2: ", check2)
 
-    """
-    check1 = str(valueString)
-    check2byte = uart.receiveBytes(valueLengthInteger)
-    check2bstring = check2byte.decode("ascii")
-    check2 = str(check2bstring)
-    """
+        """
+        check1 = str(valueString)
+        check2byte = uart.receiveBytes(valueLengthInteger)
+        check2bstring = check2byte.decode("ascii")
+        check2 = str(check2bstring)
+        """
 
-    if(check1 == check2):
-        """if(check1 == None or check2 == None or valueString == None):
-            getVariable(varNumber)"""
-        return check1
-    elif(check1 == b'' or check2 == b''):
-        getVariable(varNumber)
-    elif(check1 == b'' and check2 == b''):
-        getVariable(varNumber)
-    else:
-        #recursion
-        getVariable(varNumber)
+        if(check1 == check2):
+            """if(check1 == None or check2 == None or valueString == None):
+                getVariable(varNumber)"""
+            return check1.decode("ascii")
+        elif(check1 == b'' or check2 == b''):
+            getVariable(varNumber)
+        elif(check1 == b'' and check2 == b''):
+            getVariable(varNumber)
+        else:
+            #recursion
+            getVariable(varNumber)
+    except Exception as ex:
+            print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
+            getVariable(varNumber)
+            return
+            #gui.tk.messagebox.showerror(title="Error", message=ex)
 
 """
  * Function: 		convertLength(length)
