@@ -188,12 +188,16 @@ class UsdiFmstrApp:
             tk.messagebox.showerror(title="Error", message=ex)
 
     def getComPorts(self):
-        self.comPortList = uart.getPorts()
-        cache = list()
-        for i in self.comPortList:
-            cache.append(i)
-        #self.comboBox_comPort['state'] = 'readonly' #other options are 'normal' or 'disabled'
-        self.comboBox_comPort['values'] = cache
+        try:
+            self.comPortList = uart.getPorts()
+            cache = list()
+            for i in self.comPortList:
+                cache.append(i)
+            #self.comboBox_comPort['state'] = 'readonly' #other options are 'normal' or 'disabled'
+            self.comboBox_comPort['values'] = cache
+        except Exception as ex:
+            print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
+            tk.messagebox.showerror(title="Error", message=ex)
 
     def loadVarNum(self):
         #self.comPortList = uart.getPorts()
