@@ -19,13 +19,19 @@ from ast import Delete
 import tkinter as tk
 from tkinter import END, ttk
 from tkinter import messagebox
+from tkinter import filedialog
+from tkinter.filedialog import asksaveasfilename
+from tkinter.filedialog import *
 import pathlib
 import pygubu
 import datetime
+import logging
+import os
 
 #file imports
 import uart
-import cmd
+import command
+import debug_logging as log
 
 """
  ******************************************************************************
@@ -38,7 +44,7 @@ PROJECT_UI = PROJECT_PATH / "usdi_fmstr.ui"
   
 """
  ******************************************************************************
- * FUNCTIONS
+ * FUNCTIONS and CLASSES
  ******************************************************************************
 """
 
@@ -46,6 +52,7 @@ PROJECT_UI = PROJECT_PATH / "usdi_fmstr.ui"
 class UsdiFmstrApp:
     connection_status = False
     comPortList = list()
+    varArrayLength = int()
 
     def __init__(self, master=None):
         self.builder = builder = pygubu.Builder()
@@ -116,7 +123,8 @@ class UsdiFmstrApp:
 
     def run(self):
         #self.mainwindow.eval('tk::PlaceWindow . center')
-        print(datetime.datetime.now(), "LOG: Application launched\n")
+        #print(datetime.datetime.now(), "LOG: Application launched\n")
+        log.info("Application launched")
         self.mainwindow.mainloop()
 
     def on_connect_btn_pressed(self):
@@ -128,28 +136,34 @@ class UsdiFmstrApp:
                       self.comboBox_parityBit.get())
             self.labelValue_connectionStatus.set("Connected")
             self.connection_status = True
+            if(command.testConnection() == False):
+                uart.closeConnection()
+                log.warning("Connection settings not properly configured for communication.")
+                log.info("COM port closed")
+                tk.messagebox.showwarning(title="Warning", message="WARNING: Connection settings not properly configured for communication.")
         except Exception as ex:
-            print(datetime.datetime.now(), "LOG:", ex, "\n")
-            tk.messagebox.showerror(title="Error", message=ex)
+            log.error(ex)
+            log.error("UART connection settings must be selected in order to open connection")
+            tk.messagebox.showerror(title="Error", message="UART connection settings must be selected in order to open connection")
 
     def on_disconnect_btn_pressed(self):
         try:
             if(self.connection_status == True):
                 uart.ser.close()
                 self.labelValue_connectionStatus.set("Disconnected")
-                print(datetime.datetime.now(), "LOG: COM port closed\n")
+                log.info("COM port closed")
                 self.connection_status = False
             else:
-                print(datetime.datetime.now(), "LOG: Error: No connection to terminate\n")
+                log.error("No connection to terminate")
                 tk.messagebox.showwarning(title="Alert", message="No connection to terminate")
         except Exception as ex:
-            print(datetime.datetime.now(), "LOG:", ex, "\n")
+            log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
     def on_send_btn_pressed(self):
         try:
             #send change variable command
-            cmd.changeVariable(int(self.entry_newValue.get()), int(self.comboBox_variableID.get()))
+            command.changeVariable(int(self.entry_newValue.get()), int(self.comboBox_variableID.get()))
 
             #refresh the variable displayed
             idVal = "id_" + str(self.comboBox_variableID.get())
@@ -158,7 +172,7 @@ class UsdiFmstrApp:
             #clear entry widget
             self.entry_newValue.delete(0, END)
         except Exception as ex:
-            print(datetime.datetime.now(), "LOG:", ex, "\n")
+            log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
     
     #refresh all variables (access all variables on device)
@@ -169,22 +183,79 @@ class UsdiFmstrApp:
                 for item in self.tree_varDisplay.get_children():
                     self.tree_varDisplay.delete(item)
                 #aString1 = 'test'
-                for i in range(cmd.CAL_ARRAY_LENGTH):
+                for i in range(command.CAL_ARRAY_LENGTH):
                     try:
                         idVal = "id_" + str(i+1)
-                        varValue = cmd.getVariable(i + 1) #.decode("ascii")    
+                        varValue = command.getVariable(i + 1) #.decode("ascii")    
                         #print("Value of variable", i, "is", a)
                         #aString1new = aString1 + str(i)
                         self.tree_varDisplay.insert('', 'end', iid=idVal, text="1", values=(i+1, varValue))
                     except Exception as ex:
                         self.tree_varDisplay.insert('', 'end', text="1", values=(i+1, "error"))
-                        print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
-                        tk.messagebox.showerror(message=ex)
+                        log.error(ex)
+                        #tk.messagebox.showerror(message=ex)
             else:
                 tk.messagebox.showwarning(title="Warning", message="Alert: COM port not open")
-                print(datetime.datetime.now(), "LOG: Alert: COM port not open exception\n")
+                log.error("COM port not open exception")
+                #print(datetime.datetime.now(), "LOG: Alert: COM port not open exception\n")
         except Exception as ex:
-            print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
+            log.error(ex)
+            tk.messagebox.showerror(title="Error", message=ex)
+
+    def on_load_btn_pressed(self):
+        try:
+            #empty treeview
+            for item in self.tree_varDisplay.get_children():
+                self.tree_varDisplay.delete(item)
+
+            #load file
+            theFile = filedialog.askopenfile()
+            contents = theFile.read()
+
+            resultList = contents.split("!")
+            self.varArrayLength = int(resultList[0])
+            #print(self.varArrayLength)
+            resultList = resultList[1].split(";")
+            #print(resultList)
+
+            buffer = list()
+            for i in range(self.varArrayLength):
+                buffer = resultList[i].split(":")
+                command.changeVariable(buffer[1], buffer[0])
+                idVal = "id_" + str(i+1)
+                self.tree_varDisplay.insert('', 'end', iid=idVal, text="1", values=(buffer[0], buffer[1]))
+                """
+                try:
+                    command.changeVariable(buffer[1], buffer[0])
+                except Exception as ex:
+                    #log.error("UART Communication Error")
+                    #tk.messagebox.showerror(title="Error", message="UART Communication Error")
+                    log.error(ex)
+                    tk.messagebox.showerror(title="Error", message=ex)
+                """
+
+        except Exception as ex:
+            log.error(ex)
+            tk.messagebox.showerror(title="Error", message=ex)
+
+    def on_save_btn_pressed(self):
+        try:
+            files = [('Variable Profile', '*.var-profile')]
+            theFileID = asksaveasfile(initialdir = os.getcwd() + "\profiles", filetypes = files, defaultextension = files)
+            #print(theFileID)
+            outputList = list()
+            outputList.append(str(command.CAL_ARRAY_LENGTH) + "!")
+            for i in range(command.CAL_ARRAY_LENGTH):
+                idVal = "id_" + str(i+1)
+                value = self.tree_varDisplay.item(idVal)["values"][1]
+                theId = self.tree_varDisplay.item(idVal)["values"][0]
+                if(value == None):
+                    outputList.append(str(theId) + ":" + "None" + ";")
+                else:
+                    outputList.append(str(theId) + ":" + str(value) + ";")
+            theFileID.writelines(outputList)
+        except Exception as ex:
+            log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
     def getComPorts(self):
@@ -196,19 +267,20 @@ class UsdiFmstrApp:
             #self.comboBox_comPort['state'] = 'readonly' #other options are 'normal' or 'disabled'
             self.comboBox_comPort['values'] = cache
         except Exception as ex:
-            print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
+            log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
     def loadVarNum(self):
         #self.comPortList = uart.getPorts()
         cache = list()
-        for i in range(cmd.CAL_ARRAY_LENGTH):
+        for i in range(command.CAL_ARRAY_LENGTH):
             cache.append(i+1)
         #self.comboBox_comPort['state'] = 'readonly' #other options are 'normal' or 'disabled'
         self.comboBox_variableID['values'] = cache
 
     def on_close(self):
-        print(datetime.datetime.now(), "LOG: Application closed")
+        #print(datetime.datetime.now(), "LOG: Application closed")
+        log.info("Application closed")
         self.mainwindow.destroy()
 
 """

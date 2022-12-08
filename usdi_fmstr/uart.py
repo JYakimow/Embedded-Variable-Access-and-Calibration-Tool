@@ -23,6 +23,9 @@ import serial.tools.list_ports
 import datetime
 
 #file imports
+import application
+import command
+import debug_logging as log
 
 """
  ******************************************************************************
@@ -53,12 +56,11 @@ def init(port, baud, dataBits, stopBits, parityChecking): #, baud, dataBits, sto
     ser.bytesize = handleUartByteSize(dataBits)
     ser.stopbits = convertStopBits(stopBits)
     ser.parity = convertParity(parityChecking)
-    ser.timeout = 1 #1 second to read before timeout
+    ser.timeout = .25 #1 second to read before timeout
     ser.open()
 
-    #see port info
-    print(datetime.datetime.now(), "LOG: COM port opened with following settings: ")
-    print(ser, '\n')
+    log_msg = "COM port opened with following settings: \n" + str(ser)
+    log.info(log_msg)
 
 """
  * Function: 		getPorts()
@@ -93,6 +95,9 @@ def sendBytes(data):
 def receiveBytes(length):
     data = ser.read(length) #.decode('ascii')
     return data
+
+def closeConnection():
+    ser.close()
 
 def handleUartByteSize(dataByte):
     dataByte = str(dataByte)

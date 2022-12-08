@@ -22,7 +22,8 @@ import datetime
 
 #file imports
 import uart
-import gui
+import application
+import debug_logging as log
 
 """
  ******************************************************************************
@@ -51,6 +52,24 @@ CAL_ARRAY_LENGTH = int(34)
  * FUNCTIONS
  ******************************************************************************
 """
+
+"""
+ * Function: 		testConnection()
+ * Description: 	send test command and recieve check
+ * Parameters:		int value = the new value to send to microcontroller
+ *                  int varNumber = which var to change in ptr array in embedded side
+ * Return Value:	true or false
+"""
+def testConnection():
+    #send check connection command
+    uart.sendBytes(COMMUNICATION_CHECK.encode())
+
+    check = uart.receiveBytes(4).decode("ascii")
+    if(check == COMMUNICATION_ACK):
+        return True
+    else:
+        return False
+
 
 """
  * Function: 		changeVariable(value, numOfBytes, varNumber)
@@ -192,6 +211,3 @@ def convertLengthBack(aChar): #parameter is char
         count = count + 1
         if alphabet[count] == aChar:
             return count
-
-def getTimeStamp():
-    pass

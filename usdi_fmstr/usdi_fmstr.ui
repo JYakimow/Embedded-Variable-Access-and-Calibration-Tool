@@ -18,6 +18,7 @@
         </layout>
         <child>
           <object class="tk.LabelFrame" id="labelframe_configureUart" named="True">
+            <property name="font">TkTextFont</property>
             <property name="height">200</property>
             <property name="relief">groove</property>
             <property name="text" translatable="yes">Configure UART</property>
@@ -232,7 +233,7 @@
                 <layout manager="place">
                   <property name="anchor">nw</property>
                   <property name="x">15</property>
-                  <property name="y">15</property>
+                  <property name="y">10</property>
                 </layout>
               </object>
             </child>
@@ -243,7 +244,7 @@
                   <property name="anchor">nw</property>
                   <property name="width">140</property>
                   <property name="x">90</property>
-                  <property name="y">13</property>
+                  <property name="y">8</property>
                 </layout>
               </object>
             </child>
@@ -253,7 +254,7 @@
                 <layout manager="place">
                   <property name="anchor">nw</property>
                   <property name="x">15</property>
-                  <property name="y">60</property>
+                  <property name="y">46</property>
                 </layout>
               </object>
             </child>
@@ -264,7 +265,7 @@
                   <property name="anchor">nw</property>
                   <property name="width">140</property>
                   <property name="x">90</property>
-                  <property name="y">60</property>
+                  <property name="y">46</property>
                 </layout>
               </object>
             </child>
@@ -274,10 +275,10 @@
                 <property name="text" translatable="yes">Send</property>
                 <layout manager="place">
                   <property name="anchor">nw</property>
-                  <property name="height">40</property>
+                  <property name="height">35</property>
                   <property name="width">100</property>
                   <property name="x">130</property>
-                  <property name="y">105</property>
+                  <property name="y">80</property>
                 </layout>
               </object>
             </child>
@@ -287,10 +288,36 @@
                 <property name="text" translatable="yes">Refresh All</property>
                 <layout manager="place">
                   <property name="anchor">nw</property>
-                  <property name="height">40</property>
+                  <property name="height">35</property>
                   <property name="width">100</property>
                   <property name="x">15</property>
-                  <property name="y">105</property>
+                  <property name="y">80</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Button" id="button_load" named="True">
+                <property name="command" type="command" cbtype="simple">on_load_btn_pressed</property>
+                <property name="text" translatable="yes">Load</property>
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="height">35</property>
+                  <property name="width">100</property>
+                  <property name="x">15</property>
+                  <property name="y">120</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Button" id="button_save" named="True">
+                <property name="command" type="command" cbtype="simple">on_save_btn_pressed</property>
+                <property name="text" translatable="yes">Save</property>
+                <layout manager="place">
+                  <property name="anchor">nw</property>
+                  <property name="height">35</property>
+                  <property name="width">100</property>
+                  <property name="x">130</property>
+                  <property name="y">120</property>
                 </layout>
               </object>
             </child>

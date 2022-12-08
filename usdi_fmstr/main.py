@@ -17,12 +17,13 @@
 from pickle import TRUE
 from time import sleep
 from tkinter.tix import Tree
-from cmd import convertLength
+from command import convertLength
 
 #file imports
 import uart
-import cmd
-import gui
+import application
+import command
+import debug_logging as log
 
 """
  ******************************************************************************
@@ -41,6 +42,7 @@ def main():
 
     #init uart communication
     uart.init('COM3', 115200, '8bits')
+    #debug.initLogging()
     count = 0
 
     #print(uart.receiveBytes(1))
@@ -53,7 +55,7 @@ def main():
         val = input("Enter 'y' \n")
         if(val == 'y'):
             #cmd.changeVariable(154, 12)
-            valueStr = cmd.getVariable(3)
+            valueStr = command.getVariable(3)
             """
             uart.sendBytes(b'0x51') #0x51
             print(cmd.CHANGE_VARIABLE.encode(), "was sent")
@@ -69,7 +71,7 @@ def main():
     while(True):
         print("****** loop restarted", count, "******")
         count = count + 1
-        valueStr = cmd.getVariable(3)
+        valueStr = command.getVariable(3)
         #sendCommandTest()
         #cmd.changeVariable(34, 4)
         """
@@ -81,5 +83,7 @@ def main():
 
 if __name__ == "__main__":
     #main()
-    app = gui.UsdiFmstrApp()
+    app = application.UsdiFmstrApp()
     app.run()
+    #log.debug("this is a test")
+    #log.error("test")
