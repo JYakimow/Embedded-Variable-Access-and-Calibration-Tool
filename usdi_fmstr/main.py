@@ -41,7 +41,7 @@ def main():
     print("Application Launched\n")
 
     #init uart communication
-    uart.init('COM3', 115200, '8bits')
+    uart.init('COM3', 115200, '8bits', 'one', 'none')
     #debug.initLogging()
     count = 0
 
@@ -73,17 +73,18 @@ def main():
         count = count + 1
         valueStr = command.getVariable(3)
         #sendCommandTest()
-        #cmd.changeVariable(34, 4)
+        #command.changeVariable(34, 4)
         """
         if(valueStr == None):
             valueStr = cmd.getVariable(3)
         """
         print("The value is:", valueStr)
-        sleep(.5)
+        sleep(.1)
 
 if __name__ == "__main__":
-    #main()
-    app = application.UsdiFmstrApp()
-    app.run()
+    main()
+    command.init()
+    #app = application.UsdiFmstrApp()
+    #app.run()
     #log.debug("this is a test")
     #log.error("test")

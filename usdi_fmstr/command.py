@@ -19,6 +19,7 @@ from reprlib import recursive_repr
 import string
 import time
 import datetime
+import configparser
 
 #file imports
 import uart
@@ -45,13 +46,19 @@ VAR_STRING = "0x13"
 VAR_BOOL = "0x14"
 
 #temporary hardcoded value:
-CAL_ARRAY_LENGTH = int(34)
+CAL_ARRAY_LENGTH = int()
 
 """
  ******************************************************************************
  * FUNCTIONS
  ******************************************************************************
 """
+
+def init():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    CAL_ARRAY_LENGTH = config['CONFIG']['VAR_ARRAY_LENGTH']
+    #print(CAL_ARRAY_LENGTH)
 
 """
  * Function: 		testConnection()
@@ -145,8 +152,8 @@ def getVariable(varNumber):
         varcheck = varcheck.decode("ascii")
         if(varcheck != varNumberStr):
             #recurive till correct
-            getVariable(varNumber)
-            return
+            x = getVariable(varNumber)
+            return x
 
         #get length of new value
         valueLengthString = uart.receiveBytes(1).decode("ascii"); #char right now
@@ -175,16 +182,19 @@ def getVariable(varNumber):
                 getVariable(varNumber)"""
             return check1.decode("ascii")
         elif(check1 == b'' or check2 == b''):
-            getVariable(varNumber)
+            x = getVariable(varNumber)
+            return x
         elif(check1 == b'' and check2 == b''):
-            getVariable(varNumber)
+            x = getVariable(varNumber)
+            return x
         else:
             #recursion
-            getVariable(varNumber)
+            x = getVariable(varNumber)
+            return x
     except Exception as ex:
             print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
-            getVariable(varNumber)
-            return
+            x = getVariable(varNumber)
+            return x
             #gui.tk.messagebox.showerror(title="Error", message=ex)
 
 """
@@ -207,7 +217,8 @@ def convertLengthBack(aChar): #parameter is char
     alphabet = ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     count = 0
     
-    for i in alphabet:
+    for val in range(27):
+        aInt = val + 1
         count = count + 1
-        if alphabet[count] == aChar:
+        if alphabet[aInt] == aChar:
             return count
