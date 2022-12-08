@@ -46,7 +46,7 @@ VAR_STRING = "0x13"
 VAR_BOOL = "0x14"
 
 #temporary hardcoded value:
-CAL_ARRAY_LENGTH = int()
+CAL_ARRAY_LENGTH = 34
 
 """
  ******************************************************************************

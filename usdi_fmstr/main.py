@@ -82,9 +82,9 @@ def main():
         sleep(.1)
 
 if __name__ == "__main__":
-    main()
+    #main()
     command.init()
-    #app = application.UsdiFmstrApp()
-    #app.run()
+    app = application.UsdiFmstrApp()
+    app.run()
     #log.debug("this is a test")
     #log.error("test")
