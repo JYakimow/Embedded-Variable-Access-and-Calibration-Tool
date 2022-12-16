@@ -45,6 +45,8 @@ def main():
     #debug.initLogging()
     count = 0
 
+    print("received:", uart.receiveBytes(5))
+
     #print(uart.receiveBytes(1))
     #print(convertLength(5))
 
@@ -68,6 +70,7 @@ def main():
             print("Received Value: ", uart.receiveBytes(1))"""
 
     #enter main loop
+    
     while(True):
         print("****** loop restarted", count, "******")
         count = count + 1
@@ -81,8 +84,20 @@ def main():
         print("The value is:", valueStr)
         sleep(.1)
 
+def testing():
+    uart.init('COM4', 115200, '8bits', 'one', 'none')
+    #debug.initLogging()
+    count = 0
+
+    print("received:", uart.receiveBytes(5))
+
+    #send bytes
+    uart.sendBytes(b'page')
+    print("new received:", uart.receiveBytes(4))
+
 if __name__ == "__main__":
     #main()
+    #testing()
     command.init()
     app = application.UsdiFmstrApp()
     app.run()

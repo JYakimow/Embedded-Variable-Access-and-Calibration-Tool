@@ -27,6 +27,7 @@ import pygubu
 import datetime
 import logging
 import os
+import configparser
 
 #file imports
 import uart
@@ -53,6 +54,7 @@ class UsdiFmstrApp:
     connection_status = False
     comPortList = list()
     varArrayLength = int()
+    CAL_ARRAY_LENGTH = int()
 
     def __init__(self, master=None):
         self.builder = builder = pygubu.Builder()
@@ -90,6 +92,13 @@ class UsdiFmstrApp:
 
         #detect avalible com ports and load to com port combobox
         self.getComPorts()
+
+        #load ini config settings
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        self.CAL_ARRAY_LENGTH = int(config['CONFIG']['VAR_ARRAY_LENGTH'])
+        #print(self.CAL_ARRAY_LENGTH)
+
         #load number of vars
         self.loadVarNum()
 
@@ -183,7 +192,7 @@ class UsdiFmstrApp:
                 for item in self.tree_varDisplay.get_children():
                     self.tree_varDisplay.delete(item)
                 #aString1 = 'test'
-                for i in range(command.CAL_ARRAY_LENGTH):
+                for i in range(self.CAL_ARRAY_LENGTH):
                     try:
                         idVal = "id_" + str(i+1)
                         varValue = command.getVariable(i + 1) #.decode("ascii")    
@@ -213,9 +222,11 @@ class UsdiFmstrApp:
             contents = theFile.read()
 
             resultList = contents.split("!")
+            print(resultList)
             self.varArrayLength = int(resultList[0])
             #print(self.varArrayLength)
             resultList = resultList[1].split(";")
+            print(resultList)
             #print(resultList)
 
             buffer = list()
@@ -244,8 +255,8 @@ class UsdiFmstrApp:
             theFileID = asksaveasfile(initialdir = os.getcwd() + "\profiles", filetypes = files, defaultextension = files)
             #print(theFileID)
             outputList = list()
-            outputList.append(str(command.CAL_ARRAY_LENGTH) + "!")
-            for i in range(command.CAL_ARRAY_LENGTH):
+            outputList.append(str(self.CAL_ARRAY_LENGTH) + "!")
+            for i in range(int(self.CAL_ARRAY_LENGTH)):
                 idVal = "id_" + str(i+1)
                 value = self.tree_varDisplay.item(idVal)["values"][1]
                 theId = self.tree_varDisplay.item(idVal)["values"][0]
@@ -273,7 +284,7 @@ class UsdiFmstrApp:
     def loadVarNum(self):
         #self.comPortList = uart.getPorts()
         cache = list()
-        for i in range(command.CAL_ARRAY_LENGTH):
+        for i in range(self.CAL_ARRAY_LENGTH):
             cache.append(i+1)
         #self.comboBox_comPort['state'] = 'readonly' #other options are 'normal' or 'disabled'
         self.comboBox_variableID['values'] = cache
