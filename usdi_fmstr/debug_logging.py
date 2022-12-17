@@ -54,7 +54,7 @@ logger.addHandler(consoleHandler)
 
 """
  * Function: 		debug(message)
- * Description: 	logging debug message
+ * Description: 	send logger message of type: debug
  * Parameters:		message = string message value
  * Return Value:	None
 """
@@ -62,36 +62,36 @@ def debug(message):
     logger.debug(message)
 
 """
- * Function: 		example()
- * Description: 	example function
- * Parameters:		None
+ * Function: 		info(message)
+ * Description: 	send logger message of type: info
+ * Parameters:		message = string message value
  * Return Value:	None
 """
 def info(message):
     logger.info(message)
 
 """
- * Function: 		example()
- * Description: 	example function
- * Parameters:		None
+ * Function: 		warning(message)
+ * Description: 	send logger message of type: warning
+ * Parameters:		message = string message value
  * Return Value:	None
 """
 def warning(message):
     logger.warning(message)
 
 """
- * Function: 		example()
- * Description: 	example function
- * Parameters:		None
+ * Function: 		error(message)
+ * Description: 	send logger message of type: error
+ * Parameters:		message = string message value
  * Return Value:	None
 """
 def error(message):
     logger.error(message)
 
 """
- * Function: 		example()
- * Description: 	example function
- * Parameters:		None
+ * Function: 		critical(message)
+ * Description: 	send logger message of type: critical
+ * Parameters:		message = string message value
  * Return Value:	None
 """
 def critical(message):

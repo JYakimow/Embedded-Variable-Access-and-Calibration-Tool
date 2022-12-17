@@ -1,7 +1,7 @@
 """
 *******************************************************************************
       File Name  : main.py
-      Author     : jdyakimow
+      Author     : jdyak
       Date       : 11/18/2022
       Description: main file for usdi freemaster pc application
  ******************************************************************************
@@ -38,14 +38,18 @@ import debug_logging as log
 """
 
 def main():
-    print("Application Launched\n")
+    command.init()
+    app = application.UsdiFmstrApp()
+    app.run()
+
+    #print("Application Launched\n")
 
     #init uart communication
-    uart.init('COM3', 115200, '8bits', 'one', 'none')
+    #uart.init('COM3', 115200, '8bits', 'one', 'none')
     #debug.initLogging()
-    count = 0
+    #count = 0
 
-    print("received:", uart.receiveBytes(5))
+    #print("received:", uart.receiveBytes(5))
 
     #print(uart.receiveBytes(1))
     #print(convertLength(5))
@@ -71,18 +75,20 @@ def main():
 
     #enter main loop
     
+    """
     while(True):
         print("****** loop restarted", count, "******")
         count = count + 1
         valueStr = command.getVariable(3)
         #sendCommandTest()
         #command.changeVariable(34, 4)
-        """
-        if(valueStr == None):
-            valueStr = cmd.getVariable(3)
-        """
+        
+        #if(valueStr == None):
+        #    valueStr = cmd.getVariable(3)
+        
         print("The value is:", valueStr)
         sleep(.1)
+        """
 
 def testing():
     uart.init('COM4', 115200, '8bits', 'one', 'none')
@@ -95,11 +101,7 @@ def testing():
     uart.sendBytes(b'page')
     print("new received:", uart.receiveBytes(4))
 
+
+#simulate "main" function in python
 if __name__ == "__main__":
-    #main()
-    #testing()
-    command.init()
-    app = application.UsdiFmstrApp()
-    app.run()
-    #log.debug("this is a test")
-    #log.error("test")
+    main()

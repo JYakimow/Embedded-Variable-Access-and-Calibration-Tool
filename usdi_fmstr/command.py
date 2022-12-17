@@ -1,8 +1,8 @@
 """
 *******************************************************************************
-      File Name  : 
-      Author     : cmd.py
-      Date       : 
+      File Name  : command.py
+      Author     : jdyak
+      Date       : 11/18/2022
       Description: command change functionality
  ******************************************************************************
 """
@@ -39,7 +39,7 @@ CHANGE_VARIABLE = "0x51"
 READ_VARIABLE = "0x52"
 DATA_ACK = "0x53"
 
-#variable type commands
+#variable type commands (not currently used)
 VAR_INT = "0x11"
 VAR_CHAR = "0x12"
 VAR_STRING = "0x13"
@@ -54,11 +54,13 @@ VAR_BOOL = "0x14"
  ******************************************************************************
 """
 
+
 def init():
     config = configparser.ConfigParser()
     config.read('config.ini')
     CAL_ARRAY_LENGTH = config['CONFIG']['VAR_ARRAY_LENGTH']
     #print(CAL_ARRAY_LENGTH)
+    
 
 """
  * Function: 		testConnection()
@@ -77,7 +79,6 @@ def testConnection():
     else:
         return False
 
-
 """
  * Function: 		changeVariable(value, numOfBytes, varNumber)
  * Description: 	send commands and data to change variable on embedded side
@@ -85,7 +86,6 @@ def testConnection():
  *                  int varNumber = which var to change in ptr array in embedded side
  * Return Value:	None
 """
-#TODO: fix types and write embedded code
 def changeVariable(value, varNumber):
     varNumberStr = ""
 
@@ -130,6 +130,12 @@ def changeVariable(value, varNumber):
         #print("recursion")
         changeVariable(value, varNumber)
 
+"""
+ * Function: 		getVariable(varNumber)
+ * Description: 	get value of variable on embedded system
+ * Parameters:		varNumber = integer of which var to change in pointer array in embedded side
+ * Return Value:	x = integer of variable on embedded side
+"""
 def getVariable(varNumber):
     try:
         varNumberStr = ""

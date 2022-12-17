@@ -2,7 +2,7 @@
 """
 *******************************************************************************
       File Name  : gui.py
-      Author     : jdyakimow
+      Author     : jdyak
       Date       : 11/28/2022
       Description: gui for usdi fmstr
  ******************************************************************************
@@ -56,6 +56,12 @@ class UsdiFmstrApp:
     varArrayLength = int()
     CAL_ARRAY_LENGTH = int()
 
+    """
+     * Function: 		__init__(self, master=None)
+     * Description: 	pygubu gui initialize
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def __init__(self, master=None):
         self.builder = builder = pygubu.Builder()
         builder.add_resource_path(PROJECT_PATH)
@@ -114,6 +120,14 @@ class UsdiFmstrApp:
         x = self.tree_varDisplay.item(idVal)["values"][1] #get value to be changed
         print(x)"""
     
+    """
+     * Function: 		add_columns(self, columns, **kwargs)
+     * Description: 	add columns to tkinter treeview
+     * Parameters:		columns = treeview column object to add
+     *                  **kwargs = keyword arguments
+     *                  self = class instance
+     * Return Value:	none
+    """
     def add_columns(self, columns, **kwargs): #**kwargs *args
         # Preserve current column headers and their settings
         current_columns = list(self.tree_varDisplay['columns'])
@@ -130,12 +144,24 @@ class UsdiFmstrApp:
             state = current_columns[key].pop('state')
             self.tree_varDisplay.heading(key, **current_columns[key])
 
+    """
+     * Function: 		run(self)
+     * Description: 	run pygubu tkinter gui
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def run(self):
         #self.mainwindow.eval('tk::PlaceWindow . center')
         #print(datetime.datetime.now(), "LOG: Application launched\n")
         log.info("Application launched")
         self.mainwindow.mainloop()
 
+    """
+     * Function: 		on_connect_btn_pressed(self)
+     * Description: 	open uart connection with user specified settings
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def on_connect_btn_pressed(self):
         try:
             uart.init(self.comboBox_comPort.get(), 
@@ -155,6 +181,12 @@ class UsdiFmstrApp:
             log.error("UART connection settings must be selected in order to open connection")
             tk.messagebox.showerror(title="Error", message="UART connection settings must be selected in order to open connection")
 
+    """
+     * Function: 		on_disconnect_btn_pressed(self)
+     * Description: 	close uart connection
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def on_disconnect_btn_pressed(self):
         try:
             if(self.connection_status == True):
@@ -169,6 +201,12 @@ class UsdiFmstrApp:
             log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
+    """
+     * Function: 		on_send_btn_pressed(self)
+     * Description: 	close uart connection
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def on_send_btn_pressed(self):
         try:
             #send change variable command
@@ -183,7 +221,13 @@ class UsdiFmstrApp:
         except Exception as ex:
             log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
-    
+
+    """
+     * Function: 		on_refresh_btn_pressed(self)
+     * Description: 	read all tracked variables over uart from connected embedded device
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """    
     #refresh all variables (access all variables on device)
     def on_refresh_btn_pressed(self):
         try:
@@ -211,6 +255,12 @@ class UsdiFmstrApp:
             log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
+    """
+     * Function: 		on_load_btn_pressed(self)
+     * Description: 	load saved variable values from .var-profile save file
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def on_load_btn_pressed(self):
         try:
             #empty treeview
@@ -249,6 +299,12 @@ class UsdiFmstrApp:
             log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
+    """
+     * Function: 		on_save_btn_pressed(self)
+     * Description: 	save current value of variable to .var-profile save file
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def on_save_btn_pressed(self):
         try:
             files = [('Variable Profile', '*.var-profile')]
@@ -269,6 +325,12 @@ class UsdiFmstrApp:
             log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
+    """
+     * Function: 		getComPorts(self)
+     * Description: 	get all available com ports on pc
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def getComPorts(self):
         try:
             self.comPortList = uart.getPorts()
@@ -281,6 +343,12 @@ class UsdiFmstrApp:
             log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
 
+    """
+     * Function: 		loadVarNum(self)
+     * Description: 	load length of tracked var array inputted by user in config.ini
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def loadVarNum(self):
         #self.comPortList = uart.getPorts()
         cache = list()
@@ -289,16 +357,13 @@ class UsdiFmstrApp:
         #self.comboBox_comPort['state'] = 'readonly' #other options are 'normal' or 'disabled'
         self.comboBox_variableID['values'] = cache
 
+    """
+     * Function: 		on_close(self)
+     * Description: 	send message in log that application was closed
+     * Parameters:		self = class instance
+     * Return Value:	none
+    """
     def on_close(self):
         #print(datetime.datetime.now(), "LOG: Application closed")
         log.info("Application closed")
         self.mainwindow.destroy()
-
-"""
- * Function: 		example()
- * Description: 	example function
- * Parameters:		none
- * Return Value:	none
-"""
-def myExampleFunction():
-  print("example function")

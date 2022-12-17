@@ -1,7 +1,7 @@
 """
 *******************************************************************************
       File Name  : uart.py
-      Author     : jdyakimow
+      Author     : jdyak
       Date       : 11/18/2022
       Description: uart code for usdi freemaster pc application
  ******************************************************************************
@@ -45,9 +45,13 @@ ser.close()
 """
 
 """
- * Function: 		init()
+ * Function: 		init(port, baud, dataBits, stopBits, parityChecking)
  * Description: 	initialize uart serial port settings
- * Parameters:		None
+ * Parameters:		port = com port "COM3" example input
+ *                  baud = baudrate int "9600" example input
+ *                  dataBits = example input "5bits"
+ *                  stopBits =  example input "one"
+ *                  parityChecking = example input "none"
  * Return Value:	None
 """
 def init(port, baud, dataBits, stopBits, parityChecking): #, baud, dataBits, stopBits, parity) 
@@ -87,18 +91,30 @@ def sendBytes(data):
     ser.write(data)
 
 """
- * Function: 		receiveBytes()
+ * Function: 		receiveBytes(length)
  * Description: 	receive bytes of data
- * Parameters:		None
+ * Parameters:		length = integer length of bytes to read
  * Return Value:	read data from uart
 """
 def receiveBytes(length):
     data = ser.read(length) #.decode('ascii')
     return data
 
+"""
+ * Function: 		closeConnection()
+ * Description: 	close uart connection
+ * Parameters:		None
+ * Return Value:	None
+"""
 def closeConnection():
     ser.close()
 
+"""
+ * Function: 		handleUartByteSize(dataByte)
+ * Description: 	convert from user input to correct formatting type for pyserial library
+ * Parameters:		dataByte = string input to be converted to proper format
+ * Return Value:	return proper format of pyserial library object
+"""
 def handleUartByteSize(dataByte):
     dataByte = str(dataByte)
 
@@ -111,6 +127,12 @@ def handleUartByteSize(dataByte):
     elif(dataByte == "8bits"):
         return serial.EIGHTBITS
 
+"""
+ * Function: 		convertStopBits(stopbit)
+ * Description: 	convert from user input to correct formatting type for pyserial library
+ * Parameters:		stopbit = string input to be converted to proper format
+ * Return Value:	return proper format of pyserial library object
+"""
 def convertStopBits(stopbit):
     stopbit = str(stopbit)
 
@@ -119,6 +141,12 @@ def convertStopBits(stopbit):
     elif(stopbit == "two"):
         return serial.STOPBITS_TWO
 
+"""
+ * Function: 		convertParity(parity)
+ * Description: 	convert from user input to correct formatting type for pyserial library
+ * Parameters:		parity = string input to be converted to proper format
+ * Return Value:	return proper format of pyserial library object
+"""
 def convertParity(parity):
     parity = str(parity)
 
