@@ -18,6 +18,8 @@ from pickle import TRUE
 from time import sleep
 from tkinter.tix import Tree
 from command import convertLength
+import xml.etree.ElementTree as ET
+
 
 #file imports
 import uart
@@ -101,7 +103,16 @@ def testing():
     uart.sendBytes(b'page')
     print("new received:", uart.receiveBytes(4))
 
+def xmlParseTest():
+    tree = ET.parse("variable_names.xml")
+    root = tree.getroot()
+    for i in root.findall('var'):
+        idVal = i.find('id').text
+        varName = i.find('name').text
+        print("ID:", idVal)
+        print("Variable Name:", varName)
 
 #simulate "main" function in python
 if __name__ == "__main__":
     main()
+    #xmlParseTest()

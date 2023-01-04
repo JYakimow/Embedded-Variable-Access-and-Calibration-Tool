@@ -28,6 +28,8 @@ import datetime
 import logging
 import os
 import configparser
+import xml.etree.ElementTree as ET
+
 
 #file imports
 import uart
@@ -247,6 +249,8 @@ class UsdiFmstrApp:
                         self.tree_varDisplay.insert('', 'end', text="1", values=(i+1, "error"))
                         log.error(ex)
                         #tk.messagebox.showerror(message=ex)
+                #load meaningful names
+                self.load_names() 
             else:
                 tk.messagebox.showwarning(title="Warning", message="Alert: COM port not open")
                 log.error("COM port not open exception")
@@ -367,3 +371,16 @@ class UsdiFmstrApp:
         #print(datetime.datetime.now(), "LOG: Application closed")
         log.info("Application closed")
         self.mainwindow.destroy()
+
+    #call after variables are loaded to load meaningful names        //int(self.CAL_ARRAY_LENGTH)
+    def load_names(self):
+        tree = ET.parse("variable_names.xml")
+        root = tree.getroot()
+        for i in root.findall('var'):
+            varIdVal = i.find('id').text
+            meaningfulVarName = i.find('name').text
+            print("ID:", varIdVal)
+            print("Variable Name:", meaningfulVarName)
+
+            #refresh the variable displayed
+            self.tree_varDisplay.set(str(varIdVal), column="Variable ID", value=str(meaningfulVarName))
