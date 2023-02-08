@@ -17,7 +17,7 @@
 #library imports
 from ast import Delete
 import tkinter as tk
-from tkinter import END, ttk
+from tkinter import BOTH, END, RIGHT, Y, Scrollbar, ttk
 from tkinter import messagebox
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
@@ -30,6 +30,7 @@ import os
 import configparser
 import xml.etree.ElementTree as ET
 
+#python-dotenv (0.21.0)
 
 #file imports
 import uart
@@ -87,40 +88,39 @@ class UsdiFmstrApp:
         self.entry_newValue = builder.get_object("entry_newValue")
         self.comboBox_stopBits = builder.get_object("comboBox_stopBits")
         self.comboBox_parityBit = builder.get_object("comboBox_parityBit")
-        
+
+        #set default config values of connection configuration
+        self.comboBox_baud.set(self.getDefaultBaud())
+        self.comboBox_dataBits.set(self.getDataBits())
+        self.comboBox_stopBits.set(self.getStopBits())
+        self.comboBox_parityBit.set(self.getParityBit())
 
         #******configure treeview to display right amount of columns******
         self.tree_varDisplay = builder.get_object("treeview_varData")
-        self.tree_varDisplay.column("#0", width=0, stretch = "no") #hide empty first column
+        self.tree_varDisplay.column("#0", width=0, stretch=messagebox.NO) #hide empty first column
         #self.tree_varDisplay.heading("#0", text="")
-        self.add_columns(("Variable ID", "Value"))
-        self.tree_varDisplay.column("#1", width=0, anchor=tk.CENTER)
-        self.tree_varDisplay.column("#2", width=0, anchor=tk.CENTER)
-        #anchor=tk.CENTER
+        self.add_columns(("ID", "Variable", "Value"))
+        self.tree_varDisplay.column("#1", width=60, anchor=tk.E, stretch=messagebox.NO)
+        self.tree_varDisplay.column("#2", width=0, anchor=tk.CENTER) #originally anchor=tk.CENTER
+        self.tree_varDisplay.column("#3", width=60, anchor=tk.E, stretch=messagebox.NO)
+
+        treeView_scrollBar = ttk.Scrollbar(self.mainwindow, orient ="vertical", command = self.tree_varDisplay.yview)
+        self.tree_varDisplay.configure(yscrollcommand=treeView_scrollBar.set)
+        treeView_scrollBar.pack(side=RIGHT, fill=BOTH)
+
 
         #detect avalible com ports and load to com port combobox
         self.getComPorts()
 
         #load ini config settings
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        self.CAL_ARRAY_LENGTH = int(config['CONFIG']['VAR_ARRAY_LENGTH'])
+        #config = configparser.ConfigParser()
+        #config.read('config\config.ini')
+        #self.CAL_ARRAY_LENGTH = int(config['CONFIG']['VAR_ARRAY_LENGTH'])
+        self.CAL_ARRAY_LENGTH = self.returnArrayLength()
         #print(self.CAL_ARRAY_LENGTH)
 
         #load number of vars
         self.loadVarNum()
-
-        """
-        id = self.tree_varDisplay.insert('', 'end', iid="id_1", text="1", values=("<id num>", "<value>"))
-        print(id)
-        #self.tree_varDisplay.insert('', 'end', )
-        #self.tree_varDisplay.set('Variable ID', '1', 'page')
-        #self.tree_varDisplay.item("1", values=("1", "page"))
-        #self.tree_varDisplay.set("id_1", column="Value", value="new val")
-        anInt = 1
-        idVal = "id_" + str(anInt)
-        x = self.tree_varDisplay.item(idVal)["values"][1] #get value to be changed
-        print(x)"""
     
     """
      * Function: 		add_columns(self, columns, **kwargs)
@@ -244,9 +244,9 @@ class UsdiFmstrApp:
                         varValue = command.getVariable(i + 1) #.decode("ascii")    
                         #print("Value of variable", i, "is", a)
                         #aString1new = aString1 + str(i)
-                        self.tree_varDisplay.insert('', 'end', iid=idVal, text="1", values=(i+1, varValue))
+                        self.tree_varDisplay.insert('', 'end', iid=idVal, text="1", values=(i+1, "", varValue))
                     except Exception as ex:
-                        self.tree_varDisplay.insert('', 'end', text="1", values=(i+1, "error"))
+                        self.tree_varDisplay.insert('', 'end', text="1", values=(i+1, "", "error"))
                         log.error(ex)
                         #tk.messagebox.showerror(message=ex)
                 #load meaningful names
@@ -358,6 +358,8 @@ class UsdiFmstrApp:
         cache = list()
         for i in range(self.CAL_ARRAY_LENGTH):
             cache.append(i+1)
+            #idVal = "id_" + str(i+1)
+            #self.tree_varDisplay.set("id_1", column="Value", value=str(i+1))
         #self.comboBox_comPort['state'] = 'readonly' #other options are 'normal' or 'disabled'
         self.comboBox_variableID['values'] = cache
 
@@ -374,13 +376,60 @@ class UsdiFmstrApp:
 
     #call after variables are loaded to load meaningful names        //int(self.CAL_ARRAY_LENGTH)
     def load_names(self):
-        tree = ET.parse("variable_names.xml")
+        tree = ET.parse('config/config.xml')
         root = tree.getroot()
         for i in root.findall('var'):
             varIdVal = i.find('id').text
             meaningfulVarName = i.find('name').text
-            print("ID:", varIdVal)
-            print("Variable Name:", meaningfulVarName)
+            
+            msg = "Displayed name of variable at ID: " + str(varIdVal) + " set to: " + str(meaningfulVarName)
+            log.debug(msg)
 
             #refresh the variable displayed
-            self.tree_varDisplay.set(str(varIdVal), column="Variable ID", value=str(meaningfulVarName))
+            self.tree_varDisplay.set(str(varIdVal), column="Variable", value=str(meaningfulVarName))
+            #self.tree_varDisplay.set(str(varIdVal), column="ID", value=str(i+1))
+
+    #return length of variable array
+    def returnArrayLength(self):
+        tree = ET.parse('config/config.xml')
+        root = tree.getroot()
+        for i in root.findall('arrLen'):
+            array_length = int(i.find('value').text)
+        
+        return array_length
+
+    #read default baud value from config.xml
+    def getDefaultBaud(self):
+        tree = ET.parse('config/config.xml')
+        root = tree.getroot()
+        for i in root.findall('uartConfig'):
+           baudValue = i.find('baudRate').text
+
+        return baudValue
+
+    #read default data bits value from config.xml
+    def getDataBits(self):
+        tree = ET.parse('config/config.xml')
+        root = tree.getroot()
+        for i in root.findall('uartConfig'):
+           dataBits = i.find('dataBits').text
+
+        return dataBits
+
+    #read default stop bits value from config.xml
+    def getStopBits(self):
+        tree = ET.parse('config/config.xml')
+        root = tree.getroot()
+        for i in root.findall('uartConfig'):
+            dataBits = i.find('stopBits').text
+
+        return dataBits
+
+    #read default parity bit value from config.xml
+    def getParityBit(self):
+        tree = ET.parse('config/config.xml')
+        root = tree.getroot()
+        for i in root.findall('uartConfig'):
+            dataBits = i.find('parityBits').text
+
+        return dataBits

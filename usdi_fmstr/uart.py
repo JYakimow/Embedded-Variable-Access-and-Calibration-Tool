@@ -18,7 +18,8 @@
 #library imports
 from lib2to3.pytree import convert
 from wsgiref.validate import PartialIteratorWrapper
-import serial
+#import serial as serial
+import serial; print(serial.__file__)
 import serial.tools.list_ports
 import datetime
 

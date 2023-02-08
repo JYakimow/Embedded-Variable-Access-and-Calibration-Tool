@@ -11,6 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>usdi_fmstr</Name>
     <RootNamespace>usdi_fmstr</RootNamespace>
+    <InterpreterId>Global|VisualStudio|usdi_fmstr env</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,9 +29,15 @@
     <Compile Include="uart.py" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config.ini" />
     <Content Include="usdi_fmstr.ui" />
-    <Content Include="variable_names.xml" />
+    <Content Include="config\config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.9" />
+    <InterpreterReference Include="Global|VisualStudio|usdi_fmstr env" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="config\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

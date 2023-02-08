@@ -5,7 +5,7 @@
     <property name="geometry">800x480</property>
     <property name="height">200</property>
     <property name="resizable">none</property>
-    <property name="title" translatable="yes">USDI Embedded Variable Access and Calibration Tool</property>
+    <property name="title" translatable="yes">USDI EVCAL - Embedded Variable Calibration</property>
     <property name="width">200</property>
     <child>
       <object class="tk.Frame" id="frame_main" named="True">
@@ -229,11 +229,12 @@
             </layout>
             <child>
               <object class="ttk.Label" id="label_variableID" named="True">
+                <property name="justify">right</property>
                 <property name="text" translatable="yes">Variable ID</property>
                 <layout manager="place">
                   <property name="anchor">nw</property>
-                  <property name="x">15</property>
-                  <property name="y">10</property>
+                  <property name="x">12</property>
+                  <property name="y">15</property>
                 </layout>
               </object>
             </child>
@@ -242,9 +243,9 @@
                 <property name="state">readonly</property>
                 <layout manager="place">
                   <property name="anchor">nw</property>
-                  <property name="width">140</property>
-                  <property name="x">90</property>
-                  <property name="y">8</property>
+                  <property name="width">150</property>
+                  <property name="x">80</property>
+                  <property name="y">15</property>
                 </layout>
               </object>
             </child>
@@ -253,8 +254,8 @@
                 <property name="text" translatable="yes">New Value</property>
                 <layout manager="place">
                   <property name="anchor">nw</property>
-                  <property name="x">15</property>
-                  <property name="y">46</property>
+                  <property name="x">12</property>
+                  <property name="y">48</property>
                 </layout>
               </object>
             </child>
@@ -263,9 +264,9 @@
                 <property name="textvariable">string:entry_newValue_var</property>
                 <layout manager="place">
                   <property name="anchor">nw</property>
-                  <property name="width">140</property>
-                  <property name="x">90</property>
-                  <property name="y">46</property>
+                  <property name="width">150</property>
+                  <property name="x">80</property>
+                  <property name="y">48</property>
                 </layout>
               </object>
             </child>
@@ -330,18 +331,21 @@
         <property name="height">473</property>
         <property name="relief">groove</property>
         <property name="text" translatable="yes">Variable Data</property>
-        <property name="width">526</property>
+        <property name="width">514</property>
         <layout manager="place">
           <property name="anchor">nw</property>
           <property name="x">266</property>
           <property name="y">3</property>
         </layout>
+        <containerlayout manager="grid">
+          <property name="propagate">False</property>
+        </containerlayout>
         <child>
           <object class="ttk.Treeview" id="treeview_varData" named="True">
             <property name="selectmode">extended</property>
             <layout manager="place">
               <property name="height">445</property>
-              <property name="width">512</property>
+              <property name="width">500</property>
               <property name="x">5</property>
               <property name="y">3</property>
             </layout>

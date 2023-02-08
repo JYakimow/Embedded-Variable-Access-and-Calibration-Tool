@@ -40,7 +40,7 @@ import debug_logging as log
 """
 
 def main():
-    command.init()
+    #command.init()
     app = application.UsdiFmstrApp()
     app.run()
 
@@ -115,4 +115,3 @@ def xmlParseTest():
 #simulate "main" function in python
 if __name__ == "__main__":
     main()
-    #xmlParseTest()
