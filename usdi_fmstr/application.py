@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """
 *******************************************************************************
-      File Name  : gui.py
+      File Name  : application.py
       Author     : jdyak
       Date       : 11/28/2022
-      Description: gui for usdi fmstr
+      Description: main application control for usdi evcal
  ******************************************************************************
 """
 
@@ -171,13 +171,16 @@ class UsdiFmstrApp:
                       self.comboBox_dataBits.get(),
                       self.comboBox_stopBits.get(),
                       self.comboBox_parityBit.get())
-            self.labelValue_connectionStatus.set("Connected")
-            self.connection_status = True
+            #self.labelValue_connectionStatus.set("Connected")
+            #self.connection_status = True
             if(command.testConnection() == False):
                 uart.closeConnection()
                 log.warning("Connection settings not properly configured for communication.")
                 log.info("COM port closed")
                 tk.messagebox.showwarning(title="Warning", message="WARNING: Connection settings not properly configured for communication.")
+            else:
+                self.labelValue_connectionStatus.set("Connected")
+                self.connection_status = True
         except Exception as ex:
             log.error(ex)
             log.error("UART connection settings must be selected in order to open connection")

@@ -46,7 +46,7 @@ VAR_STRING = "0x13"
 VAR_BOOL = "0x14"
 
 #temporary hardcoded value:
-#CAL_ARRAY_LENGTH = 34
+#CAL_ARRAY_LENGTH = 35
 
 """
  ******************************************************************************
@@ -54,12 +54,12 @@ VAR_BOOL = "0x14"
  ******************************************************************************
 """
 
-
+"""
 #def init():
 #    config = configparser.ConfigParser()
 #    config.read('config\config.ini')
 #    CAL_ARRAY_LENGTH = config['CONFIG']['VAR_ARRAY_LENGTH']
-    #print(CAL_ARRAY_LENGTH)
+    #print(CAL_ARRAY_LENGTH)"""
     
 
 """
