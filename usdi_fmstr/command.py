@@ -35,7 +35,7 @@ import debug_logging as log
 #communication commands
 COMMUNICATION_CHECK = "5" #formerly "0x55"
 COMMUNICATION_ACK = "6" #formerly "0x56"
-CHANGE_VARIABLE = "0x51"
+CHANGE_VARIABLE = "1" #formerly "0x51"
 READ_VARIABLE = "2" #formerly 0x52
 DATA_ACK = "0x53"
 
@@ -93,6 +93,109 @@ def testConnection():
  * Return Value:	None
 """
 def changeVariable(value, varNumber):
+    try:
+        uartMsgString = ""
+
+        #set position 0 to command
+        uartMsgString = str(uartMsgString) + str(READ_VARIABLE)
+
+        #set position 1 to length of varNumber
+        varIDlen = determineLength(varNumber)
+        uartMsgString = str(uartMsgString) + str(varIDlen)
+
+        #set position 2 - 4 to varID
+        if(varIDlen == 1):
+            uartMsgString = str(uartMsgString) + str(varNumber) #takes up one space
+            uartMsgString = str(uartMsgString) + "  " #add two spaces
+        elif(varIDlen == 2):
+            uartMsgString = str(uartMsgString) + str(varNumber) #takes up two spaces
+            uartMsgString = str(uartMsgString) + " " #add one spaces
+        elif(varIDlen == 3):
+            uartMsgString = str(uartMsgString) + str(varNumber) #takes up three spaces
+
+        #set position 5 to value length
+        valueLen = determineLength(value)
+        uartMsgString = str(uartMsgString) + str(valueLen)
+
+        #set positions 6 - 20 to value or blank
+        if(valueLen == 1):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 1 space
+            uartMsgString = str(uartMsgString) + "              " #add 14 spaces
+        elif(valueLen == 2):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 2 spaces
+            uartMsgString = str(uartMsgString) + "             " #add 13 spaces
+        elif(valueLen == 3):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 3 spaces
+            uartMsgString = str(uartMsgString) + "            " #add 12 spaces
+        elif(valueLen == 4):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 4 spaces
+            uartMsgString = str(uartMsgString) + "           " #add 11 spaces
+        elif(valueLen == 5):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 5 spaces
+            uartMsgString = str(uartMsgString) + "          " #add 10 spaces
+        elif(valueLen == 6):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 6 spaces
+            uartMsgString = str(uartMsgString) + "         " #add 9 spaces
+        elif(valueLen == 7):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 7 spaces
+            uartMsgString = str(uartMsgString) + "        " #add 8 spaces
+        elif(valueLen == 8):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 8 spaces
+            uartMsgString = str(uartMsgString) + "       " #add 7 spaces
+        elif(valueLen == 9):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 9 spaces
+            uartMsgString = str(uartMsgString) + "      " #add 6 spaces
+        elif(valueLen == 10):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 10 spaces
+            uartMsgString = str(uartMsgString) + "     " #add 5 
+        elif(valueLen == 11):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 11 spaces
+            uartMsgString = str(uartMsgString) + "    " #add 4 spaces
+        elif(valueLen == 12):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 12 spaces
+            uartMsgString = str(uartMsgString) + "   " #add 3 spaces
+        elif(valueLen == 13):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 13 spaces
+            uartMsgString = str(uartMsgString) + "  " #add 2 
+        elif(valueLen == 14):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 14 spaces
+            uartMsgString = str(uartMsgString) + " " #add 1 spaces
+        elif(valueLen == 15):
+            uartMsgString = str(uartMsgString) + str(value) #takes up 15 spaces
+            uartMsgString = str(uartMsgString) + "" #add 0 spaces
+
+        #set rest of message to blank ascii
+        #uartMsgString = str(uartMsgString) + "               "
+
+
+
+        """
+        #transmit over uart
+        uart.sendBytes(uartMsgString.encode())
+        print(uartMsgString, ":")
+
+        #listen over uart
+        incomingLenChar = uart.receiveBytes(1) #uart.ser.readline() #uart.receiveBytes(11)
+        incomingLen = convertLengthBack(incomingLenChar.decode())
+        incoming = uart.receiveBytes(incomingLen) #uart.ser.readline() #uart.receiveBytes(incomingLen)
+        print(incomingLenChar)
+        #print(incomingLen)
+        print(incoming) #.decode())
+        """
+
+        #return #incoming.decode()
+        
+    except Exception as ex:
+        print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
+        """
+        x = getVariable(varNumber)
+        return x
+        """
+        #gui.tk.messagebox.showerror(title="Error", message=ex)
+
+
+"""
+def changeVariable(value, varNumber):
     varNumberStr = ""
 
     #send change variable command (always 4 bytes)
@@ -135,7 +238,7 @@ def changeVariable(value, varNumber):
     else:
         #print("recursion")
         changeVariable(value, varNumber)
-
+"""
 
 """
  * Function: 		getVariable(varNumber)
@@ -180,82 +283,12 @@ def getVariable(varNumber):
         print(incoming) #.decode())
 
         return incoming.decode()
-
         
     except Exception as ex:
         print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
         x = getVariable(varNumber)
         return x
         #gui.tk.messagebox.showerror(title="Error", message=ex)
-
-"""
-def getVariable(varNumber):
-    try:
-        varNumberStr = ""
-
-        #send get variable command (always 4 bytes)
-        uart.sendBytes(READ_VARIABLE.encode())
-
-        #send length of variable id int (single char, single byte)
-        varNumberStr = str(varNumber)
-        varIdLen = len(varNumberStr)
-        varIdLength = convertLength(varIdLen)
-        uart.sendBytes(varIdLength.encode())
-
-        #send which variable (numeric value for pointer array in embedded system)
-        uart.sendBytes(varNumberStr.encode())
-
-        #check to make sure right varid was sent
-        varcheck = uart.receiveBytes(varIdLen)
-        print("var ID check: ", varcheck)
-        varcheck = varcheck.decode("ascii")
-        if(varcheck != varNumberStr):
-            #recurive till correct
-            x = getVariable(varNumber)
-            return x
-
-        #get length of new value
-        valueLengthString = uart.receiveBytes(1).decode("ascii"); #char right now
-        valueLengthInteger = convertLengthBack(valueLengthString) #now an int
-        #print("length of value int:", valueLengthInteger)
-
-        #receive value
-        valueByteObject = uart.receiveBytes(valueLengthInteger)
-        valueString = valueByteObject.decode("ascii")
-
-        #accuracy check
-        check1 = valueByteObject
-        print("value check1: ", check1)
-        check2 = uart.receiveBytes(valueLengthInteger)
-        print("value check2: ", check2)
-
-        
-        #check1 = str(valueString)
-        #check2byte = uart.receiveBytes(valueLengthInteger)
-        #check2bstring = check2byte.decode("ascii")
-        #check2 = str(check2bstring)
-        
-
-        if(check1 == check2):
-            #if(check1 == None or check2 == None or valueString == None):
-                #getVariable(varNumber)
-            return check1.decode("ascii")
-        elif(check1 == b'' or check2 == b''):
-            x = getVariable(varNumber)
-            return x
-        elif(check1 == b'' and check2 == b''):
-            x = getVariable(varNumber)
-            return x
-        else:
-            #recursion
-            x = getVariable(varNumber)
-            return x
-    except Exception as ex:
-            print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
-            x = getVariable(varNumber)
-            return x
-            #gui.tk.messagebox.showerror(title="Error", message=ex)
-"""
 
 """
  * Function: 		convertLength(length)
