@@ -48,6 +48,7 @@ def main():
 
     #init uart communication
     #uart.init('COM3', 115200, '8bits', 'one', 'none')
+    #command.getVariable(17)
     #debug.initLogging()
     #count = 0
 
@@ -62,8 +63,16 @@ def main():
     def sendCommandTest():
         val = input("Enter 'y' \n")
         if(val == 'y'):
+            command.getVariable(34)
+            """
+            uart.sendBytes(b'5') #read variable 0x52 //0x55 comm check
+            #uart.sendBytes(b'c')
+            dat = uart.ser.readline()
+            #dat = uart.receiveBytes(4)
+            print("recieved: ", dat)"""
+            #uart.receiveBytes(4)
             #cmd.changeVariable(154, 12)
-            valueStr = command.getVariable(3)
+            #valueStr = command.getVariable(3)
             """
             uart.sendBytes(b'0x51') #0x51
             print(cmd.CHANGE_VARIABLE.encode(), "was sent")
@@ -77,6 +86,10 @@ def main():
 
     #enter main loop
     
+    #while(True):
+        #command.getVariable(17)
+        #sendCommandTest()
+
     """
     while(True):
         print("****** loop restarted", count, "******")
@@ -91,6 +104,9 @@ def main():
         print("The value is:", valueStr)
         sleep(.1)
         """
+
+def test_uart_connection():
+    pass
 
 def testing():
     uart.init('COM4', 115200, '8bits', 'one', 'none')

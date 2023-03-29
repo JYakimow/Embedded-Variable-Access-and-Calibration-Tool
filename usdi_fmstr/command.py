@@ -33,10 +33,10 @@ import debug_logging as log
 """
 
 #communication commands
-COMMUNICATION_CHECK = "0x55"
-COMMUNICATION_ACK = "0x56"
+COMMUNICATION_CHECK = "5" #formerly "0x55"
+COMMUNICATION_ACK = "6" #formerly "0x56"
 CHANGE_VARIABLE = "0x51"
-READ_VARIABLE = "0x52"
+READ_VARIABLE = "2" #formerly 0x52
 DATA_ACK = "0x53"
 
 #variable type commands (not currently used)
@@ -65,15 +65,21 @@ VAR_BOOL = "0x14"
 """
  * Function: 		testConnection()
  * Description: 	send test command and recieve check
- * Parameters:		int value = the new value to send to microcontroller
- *                  int varNumber = which var to change in ptr array in embedded side
+ * Parameters:		none
  * Return Value:	true or false
 """
 def testConnection():
     #send check connection command
-    uart.sendBytes(COMMUNICATION_CHECK.encode())
+    
+    cmd_msg = COMMUNICATION_CHECK
+    for i in range(19):
+        cmd_msg = cmd_msg + " "
+        #print(i)
+    #print(cmd_msg, ";")
 
-    check = uart.receiveBytes(4).decode("ascii")
+    uart.sendBytes(cmd_msg.encode())
+
+    check = uart.receiveBytes(1).decode("ascii")
     if(check == COMMUNICATION_ACK):
         return True
     else:
@@ -130,11 +136,58 @@ def changeVariable(value, varNumber):
         #print("recursion")
         changeVariable(value, varNumber)
 
+
 """
  * Function: 		getVariable(varNumber)
  * Description: 	get value of variable on embedded system
  * Parameters:		varNumber = integer of which var to change in pointer array in embedded side
  * Return Value:	x = integer of variable on embedded side
+"""
+def getVariable(varNumber):
+    try:
+        uartMsgString = ""
+
+        #set position 0 to command
+        uartMsgString = str(uartMsgString) + str(READ_VARIABLE)
+
+        #set position 1 to length of varNumber
+        varIDlen = determineLength(varNumber)
+        uartMsgString = str(uartMsgString) + str(varIDlen)
+
+        #set position 2 - 4 to varID
+        if(varIDlen == 1):
+            uartMsgString = str(uartMsgString) + str(varNumber) #takes up one space
+            uartMsgString = str(uartMsgString) + "  " #add two spaces
+        elif(varIDlen == 2):
+            uartMsgString = str(uartMsgString) + str(varNumber) #takes up two spaces
+            uartMsgString = str(uartMsgString) + " " #add one spaces
+        elif(varIDlen == 3):
+            uartMsgString = str(uartMsgString) + str(varNumber) #takes up three spaces
+
+        #set rest of message to blank ascii
+        uartMsgString = str(uartMsgString) + "               "
+
+        #transmit over uart
+        uart.sendBytes(uartMsgString.encode())
+        print(uartMsgString, ":")
+
+        #listen over uart
+        incomingLenChar = uart.receiveBytes(1) #uart.ser.readline() #uart.receiveBytes(11)
+        incomingLen = convertLengthBack(incomingLenChar.decode())
+        incoming = uart.receiveBytes(incomingLen) #uart.ser.readline() #uart.receiveBytes(incomingLen)
+        print(incomingLenChar)
+        #print(incomingLen)
+        print(incoming) #.decode())
+
+        return incoming.decode()
+
+        
+    except Exception as ex:
+        print(datetime.datetime.now(), "LOG: Error:", ex, "\n")
+        x = getVariable(varNumber)
+        return x
+        #gui.tk.messagebox.showerror(title="Error", message=ex)
+
 """
 def getVariable(varNumber):
     try:
@@ -176,16 +229,16 @@ def getVariable(varNumber):
         check2 = uart.receiveBytes(valueLengthInteger)
         print("value check2: ", check2)
 
-        """
-        check1 = str(valueString)
-        check2byte = uart.receiveBytes(valueLengthInteger)
-        check2bstring = check2byte.decode("ascii")
-        check2 = str(check2bstring)
-        """
+        
+        #check1 = str(valueString)
+        #check2byte = uart.receiveBytes(valueLengthInteger)
+        #check2bstring = check2byte.decode("ascii")
+        #check2 = str(check2bstring)
+        
 
         if(check1 == check2):
-            """if(check1 == None or check2 == None or valueString == None):
-                getVariable(varNumber)"""
+            #if(check1 == None or check2 == None or valueString == None):
+                #getVariable(varNumber)
             return check1.decode("ascii")
         elif(check1 == b'' or check2 == b''):
             x = getVariable(varNumber)
@@ -202,6 +255,7 @@ def getVariable(varNumber):
             x = getVariable(varNumber)
             return x
             #gui.tk.messagebox.showerror(title="Error", message=ex)
+"""
 
 """
  * Function: 		convertLength(length)
@@ -228,3 +282,24 @@ def convertLengthBack(aChar): #parameter is char
         count = count + 1
         if alphabet[aInt] == aChar:
             return count
+
+#determine length of num
+def determineLength(number):
+    if(number <= 9):
+        return 1
+    elif(number >= 10 and number < 100):
+        return 2
+    elif(number >= 100 and number < 1000):
+        return 3
+    elif(number >= 1000 and number < 10000):
+        return 4
+    elif(number >= 10000 and number < 100000):
+        return 5
+    elif(number >= 100000 and number < 1000000):
+        return 6
+    elif(number >= 1000000 and number < 10000000):
+        return 7
+    elif(number >= 10000000 and number < 100000000):
+        return 8
+    elif(number >= 100000000 and number < 1000000000):
+        return 9
