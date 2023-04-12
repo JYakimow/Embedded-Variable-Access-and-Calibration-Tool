@@ -97,7 +97,7 @@ def changeVariable(value, varNumber):
         uartMsgString = ""
 
         #set position 0 to command
-        uartMsgString = str(uartMsgString) + str(READ_VARIABLE)
+        uartMsgString = str(uartMsgString) + str(CHANGE_VARIABLE)
 
         #set position 1 to length of varNumber
         varIDlen = determineLength(varNumber)
@@ -167,7 +167,9 @@ def changeVariable(value, varNumber):
         #set rest of message to blank ascii
         #uartMsgString = str(uartMsgString) + "               "
 
-
+        #transmit over uart
+        uart.sendBytes(uartMsgString.encode())
+        print(uartMsgString, ":")
 
         """
         #transmit over uart

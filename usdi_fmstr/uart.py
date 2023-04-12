@@ -61,7 +61,7 @@ def init(port, baud, dataBits, stopBits, parityChecking): #, baud, dataBits, sto
     ser.bytesize = handleUartByteSize(dataBits)
     ser.stopbits = convertStopBits(stopBits)
     ser.parity = convertParity(parityChecking)
-    ser.timeout = 1 # 0.1 second to read before timeout
+    ser.timeout = 6 # 0.1 second to read before timeout
     ser.open()
 
     log_msg = "COM port opened with following settings: \n" + str(ser)
