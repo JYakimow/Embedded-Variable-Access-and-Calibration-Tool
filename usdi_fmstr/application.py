@@ -261,6 +261,7 @@ class UsdiFmstrApp:
         except Exception as ex:
             log.error(ex)
             tk.messagebox.showerror(title="Error", message=ex)
+            print("refresh_btn exception")
 
     """
      * Function: 		on_load_btn_pressed(self)
