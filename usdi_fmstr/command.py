@@ -120,47 +120,46 @@ def changeVariable(value, varNumber):
     #set positions 6 - 20 to value or blank
     if(valueLen == 1):
         uartMsgString = str(uartMsgString) + str(value) #takes up 1 space
-        uartMsgString = str(uartMsgString) + "            " #add 12 spaces
+        uartMsgString = str(uartMsgString) + "             " #add 12 spaces
     elif(valueLen == 2):
         uartMsgString = str(uartMsgString) + str(value) #takes up 2 spaces
-        uartMsgString = str(uartMsgString) + "           " #add 11 spaces
+        uartMsgString = str(uartMsgString) + "            " #add 11 spaces
     elif(valueLen == 3):
         uartMsgString = str(uartMsgString) + str(value) #takes up 3 spaces
-        uartMsgString = str(uartMsgString) + "          " #add 10 spaces
+        uartMsgString = str(uartMsgString) + "           " #add 10 spaces
     elif(valueLen == 4):
         uartMsgString = str(uartMsgString) + str(value) #takes up 4 spaces
-        uartMsgString = str(uartMsgString) + "         " #add 9 spaces
+        uartMsgString = str(uartMsgString) + "          " #add 9 spaces
     elif(valueLen == 5):
         uartMsgString = str(uartMsgString) + str(value) #takes up 5 spaces
-        uartMsgString = str(uartMsgString) + "        " #add 8 spaces
+        uartMsgString = str(uartMsgString) + "         " #add 8 spaces
     elif(valueLen == 6):
         uartMsgString = str(uartMsgString) + str(value) #takes up 6 spaces
-        uartMsgString = str(uartMsgString) + "       " #add 7 spaces
+        uartMsgString = str(uartMsgString) + "        " #add 7 spaces
     elif(valueLen == 7):
         uartMsgString = str(uartMsgString) + str(value) #takes up 7 spaces
-        uartMsgString = str(uartMsgString) + "      " #add 6 spaces
+        uartMsgString = str(uartMsgString) + "       " #add 6 spaces
     elif(valueLen == 8):
         uartMsgString = str(uartMsgString) + str(value) #takes up 8 spaces
-        uartMsgString = str(uartMsgString) + "     " #add 5 spaces
+        uartMsgString = str(uartMsgString) + "      " #add 5 spaces
     elif(valueLen == 9):
         uartMsgString = str(uartMsgString) + str(value) #takes up 9 spaces
-        uartMsgString = str(uartMsgString) + "    " #add 4 spaces
+        uartMsgString = str(uartMsgString) + "     " #add 4 spaces
     elif(valueLen == 10):
         uartMsgString = str(uartMsgString) + str(value) #takes up 10 spaces
-        uartMsgString = str(uartMsgString) + "   " #add 3 spaces
+        uartMsgString = str(uartMsgString) + "    " #add 3 spaces
     elif(valueLen == 11):
         uartMsgString = str(uartMsgString) + str(value) #takes up 11 spaces
-        uartMsgString = str(uartMsgString) + "  " #add 2 spaces
+        uartMsgString = str(uartMsgString) + "   " #add 2 spaces
     elif(valueLen == 12):
         uartMsgString = str(uartMsgString) + str(value) #takes up 12 spaces
-        uartMsgString = str(uartMsgString) + " " #add 1 space
+        uartMsgString = str(uartMsgString) + "  " #add 1 space
     elif(valueLen == 13):
         uartMsgString = str(uartMsgString) + str(value) #takes up 13 spaces
-        uartMsgString = str(uartMsgString) + "" #add 0
+        uartMsgString = str(uartMsgString) + " " #add 0
 
     #set rest of message to blank ascii
     #uartMsgString = str(uartMsgString) + "               "
-
     #transmit over uart
     uart.sendBytes(uartMsgString.encode())
     print(uartMsgString, ":")
@@ -281,6 +280,12 @@ def getVariable(varNumber):
     print(incomingLenChar)
     #print(incomingLen)
     print(incoming) #.decode())
+
+
+    #print("incoming:", incoming.decode())
+
+    #if(incoming == b''):
+    #    getVariable(varNumber)
 
     return incoming.decode()
     

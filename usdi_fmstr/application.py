@@ -218,7 +218,10 @@ class UsdiFmstrApp:
             command.changeVariable(int(self.entry_newValue.get()), int(self.comboBox_variableID.get()))
 
             #refresh the variable displayed
+
             idVal = "id_" + str(self.comboBox_variableID.get())
+            #theNewValueToDisplay = command.getVariable(int(self.comboBox_variableID.get()))
+            #self.tree_varDisplay.set(idVal, column="Value", value=str(theNewValueToDisplay))
             self.tree_varDisplay.set(idVal, column="Value", value=str(self.entry_newValue.get()))
 
             #clear entry widget
