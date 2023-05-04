@@ -29,6 +29,12 @@
     <Compile Include="uart.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NewFolder1\evcal.c" />
+    <Content Include="NewFolder1\evcal.h" />
+    <Content Include="NewFolder1\evcal_tracking.c" />
+    <Content Include="NewFolder1\evcal_tracking.h" />
+    <Content Include="NewFolder1\evcal_uart.c" />
+    <Content Include="NewFolder1\evcal_uart.h" />
     <Content Include="usdi_fmstr.ui" />
     <Content Include="config\config.xml" />
   </ItemGroup>
@@ -38,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
