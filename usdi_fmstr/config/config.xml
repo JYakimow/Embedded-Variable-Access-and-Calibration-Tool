@@ -10,7 +10,7 @@
 	</uartConfig>
 	<!--tracked variable array length value-->
 	<arrLen>
-		<value>35</value> <!--This is the length of variable array (this is changed in conjunction with embedded code length of array)-->
+		<value>55</value> <!--This is the length of variable array (this is changed in conjunction with embedded code length of array)-->
 	</arrLen>
 	<!--meaningful names for tracked variables-->
 	<!--This first entry is also an example on how to fill out-->
@@ -23,139 +23,135 @@
 	<!--example and first entry above.-->
 	<var>
 		<id>id_2</id>
-		<name>[SPEED_SLOW].DECEL_RATE</name>
+		<name>.SPEEDS[SPEED_SLOW].DECEL_RATE</name>
 	</var>
 	<var>
 		<id>id_3</id>
-		<name>[SPEED_SLOW].START_RPM</name>
+		<name>.SPEEDS[SPEED_SLOW].START_RPM</name>
 	</var>
 	<var>
 		<id>id_4</id>
-		<name>[SPEED_SLOW].SPEED_PWM_MULT</name>
+		<name>.SPEEDS[SPEED_SLOW].SPEED_PWM_MULT</name>
 	</var>
 	<var>
 		<id>id_5</id>
-		<name>[SPEED_SLOW].SPEED_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_SLOW].SPEED_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_6</id>
-		<name>[SPEED_SLOW].SPEED_ERR_INT</name>
+		<name>.SPEEDS[SPEED_SLOW].SPEED_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_7</id>
-		<name>[SPEED_SLOW].SPEED_DC_INT_LIMIT</name>
+		<name>.SPEEDS[SPEED_SLOW].SPEED_DC_INT_LIMIT</name>
 	</var>
 	<var>
 		<id>id_8</id>
-		<name>[SPEED_SLOW].POS_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_SLOW].POS_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_9</id>
-		<name>[SPEED_SLOW].ON_TIME_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_SLOW].ON_TIME_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_10</id>
-		<name>[SPEED_SLOW].POS_ERR_INT</name>
+		<name>.SPEEDS[SPEED_SLOW].POS_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_11</id>
-		<name>[SPEED_SLOW].ON_TIME_ERR_INT</name>
+		<name>.SPEEDS[SPEED_SLOW].ON_TIME_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_12</id>
-		<name>[SPEED_SLOW].DESIRED_RPM</name>
+		<name>.SPEEDS[SPEED_SLOW].DESIRED_RPM</name>
 	</var>
 	<var>
 		<id>id_13</id>
-		<name>[SPEED_SLOW].MOTOR_STOP_RPM</name>
+		<name>.SPEEDS[SPEED_SLOW].MOTOR_STOP_RPM</name>
 	</var>
 	<var>
 		<id>id_14</id>
-		<name>[SPEED_SLOW].MOTOR_CURRENT_LIMIT</name>
+		<name>.SPEEDS[SPEED_SLOW].MOTOR_CURRENT_LIMIT</name>
 	</var>
 	<var>
 		<id>id_15</id>
-		<name>[SPEED_SLOW].CURRENT_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_SLOW].CURRENT_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_16</id>
-		<name>[SPEED_SLOW].CURRENT_ERR_INT</name>
+		<name>.SPEEDS[SPEED_SLOW].CURRENT_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_17</id>
-		<name>[SPEED_SLOW].MOTOR_TORQUE_REDUCTION_PERCENT</name>
+		<name>.SPEEDS[SPEED_SLOW].MOTOR_TORQUE_REDUCTION_PERCENT</name>
 	</var>
 	<!--NOTE: SPEED_SLOW above && SPEED_FAST below-->
 	<var>
 		<id>id_18</id>
-		<name>[SPEED_FAST].ACCEL_RATE</name>
+		<name>.SPEEDS[SPEED_FAST].ACCEL_RATE</name>
 	</var>
 	<var>
 		<id>id_19</id>
-		<name>[SPEED_FAST].DECEL_RATE</name>
+		<name>.SPEEDS[SPEED_FAST].DECEL_RATE</name>
 	</var>
 	<var>
 		<id>id_20</id>
-		<name>[SPEED_FAST].START_RPM</name>
+		<name>.SPEEDS[SPEED_FAST].START_RPM</name>
 	</var>
 	<var>
 		<id>id_21</id>
-		<name>[SPEED_FAST].SPEED_PWM_MULT</name>
+		<name>.SPEEDS[SPEED_FAST].SPEED_PWM_MULT</name>
 	</var>
 	<var>
 		<id>id_22</id>
-		<name>[SPEED_FAST].SPEED_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_FAST].SPEED_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_23</id>
-		<name>[SPEED_FAST].SPEED_ERR_INT</name>
+		<name>.SPEEDS[SPEED_FAST].SPEED_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_24</id>
-		<name>[SPEED_FAST].SPEED_DC_INT_LIMIT</name>
+		<name>.SPEEDS[SPEED_FAST].SPEED_DC_INT_LIMIT</name>
 	</var>
 	<var>
 		<id>id_25</id>
-		<name>[SPEED_FAST].POS_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_FAST].POS_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_26</id>
-		<name>[SPEED_FAST].ON_TIME_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_FAST].ON_TIME_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_27</id>
-		<name>[SPEED_FAST].POS_ERR_INT</name>
+		<name>.SPEEDS[SPEED_FAST].POS_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_28</id>
-		<name>[SPEED_FAST].ON_TIME_ERR_INT</name>
+		<name>.SPEEDS[SPEED_FAST].ON_TIME_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_29</id>
-		<name>[SPEED_FAST].DESIRED_RPM</name>
+		<name>.SPEEDS[SPEED_FAST].DESIRED_RPM</name>
 	</var>
 	<var>
 		<id>id_30</id>
-		<name>[SPEED_FAST].MOTOR_STOP_RPM</name>
+		<name>.SPEEDS[SPEED_FAST].MOTOR_STOP_RPM</name>
 	</var>
 	<var>
 		<id>id_31</id>
-		<name>[SPEED_FAST].MOTOR_CURRENT_LIMIT</name>
+		<name>.SPEEDS[SPEED_FAST].MOTOR_CURRENT_LIMIT</name>
 	</var>
 	<var>
 		<id>id_32</id>
-		<name>[SPEED_FAST].CURRENT_ERR_PROP</name>
+		<name>.SPEEDS[SPEED_FAST].CURRENT_ERR_PROP</name>
 	</var>
 	<var>
 		<id>id_33</id>
-		<name>[SPEED_FAST].CURRENT_ERR_INT</name>
+		<name>.SPEEDS[SPEED_FAST].CURRENT_ERR_INT</name>
 	</var>
 	<var>
 		<id>id_34</id>
-		<name>[SPEED_FAST].MOTOR_TORQUE_REDUCTION_PERCENT</name>
-	</var>
-	<var>
-		<id>id_35</id>
-		<name>cals.MOTOR_PWM_FREQ</name>
+		<name>.SPEEDS[SPEED_FAST].MOTOR_TORQUE_REDUCTION_PERCENT</name>
 	</var>
 </variable>
